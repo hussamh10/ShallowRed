@@ -73,11 +73,10 @@ int Evaluator::material(){
 	}
 
 	/*
-	TODO
-		is player 1 white ?
+		white(player1) is positive
 	*/
 
-	if(state->playerToMove == 1){
+	if(state->playerToMove > 0){
 		return sumP1 - sumP2;
 	}
 	else{
