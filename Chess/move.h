@@ -5,7 +5,7 @@
 class chessMove
 {
     public:
-        chessMove();
+		chessMove(int fromRow = 0, int fromCol = 0, int toRow = 0, int toCol = 0);
         unsigned int From[2];
         unsigned int To[2];
 };
