@@ -13,7 +13,7 @@ int main()
 
     playerGROUP_NAME player(1);
     int totalMoves = game.makeValidMovesList();
-    player.decideMoveUsingMINIMAX(game, PlayerMove, 3);
+    player.decideMoveUsingMINIMAX(game, PlayerMove, 2);
     game.makeMove(PlayerMove);
     game.showState();
 

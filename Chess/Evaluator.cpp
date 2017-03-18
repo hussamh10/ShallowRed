@@ -186,7 +186,7 @@ int Evaluator::bishopAttacking(int r, int c){
 
 	int p;
 
-	for(int i = r, int j = c; i < 8, j < 8; i++, j++){
+	for(int i = r, j = c; i < 8, j < 8; i++, j++){
 		p = state->board[i][j];
 		if(p != 0){
 			if(!sameSign(p, x)){
@@ -196,7 +196,7 @@ int Evaluator::bishopAttacking(int r, int c){
 		}
 	}
 
-	for(int i = r, int j = c; i >= 0, j < 8; i--, j++){
+	for(int i = r, j = c; i >= 0, j < 8; i--, j++){
 		p = state->board[i][j];
 		if(p != 0){
 			if(!sameSign(p, x)){
@@ -206,7 +206,7 @@ int Evaluator::bishopAttacking(int r, int c){
 		}
 	}
 
-	for(int i = r, int j = c; i > 8, j >= 0; i++, j--){
+	for(int i = r, j = c; i > 8, j >= 0; i++, j--){
 		p = state->board[i][j];
 		if(p != 0){
 			if(!sameSign(p, x)){
