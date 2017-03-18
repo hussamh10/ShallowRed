@@ -17,7 +17,7 @@ int playerGROUP_NAME::decideMoveUsingMINIMAX(chessState &gameState, chessMove& r
     returnMove.To[0] = returnMove.To[0] = 0;
     if(totalMoves <= 0)
     {
-		return -1;
+//		return -1;
     }
 
 
