@@ -143,15 +143,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="chessState.cpp" />
+    <ClCompile Include="Evaluator.cpp" />
     <ClCompile Include="groupName.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MiniMax.cpp" />
     <ClCompile Include="move.cpp" />
     <ClCompile Include="player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="chessBoard.h" />
     <ClInclude Include="chessState.h" />
+    <ClInclude Include="Evaluator.h" />
     <ClInclude Include="groupName.h" />
+    <ClInclude Include="MiniMax.h" />
     <ClInclude Include="move.h" />
     <ClInclude Include="player.h" />
   </ItemGroup>
