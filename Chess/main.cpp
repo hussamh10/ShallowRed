@@ -11,11 +11,19 @@ int main()
     game.showState();
     chessMove PlayerMove;
 
-    playerGROUP_NAME player(1);
+	playerGROUP_NAME player(1);
+	playerGROUP_NAME player2(-1);
     int totalMoves = game.makeValidMovesList();
-    player.decideMoveUsingMINIMAX(game, PlayerMove, 2);
-    game.makeMove(PlayerMove);
-    game.showState();
 
+	for (int i = 0; i < 10; ++i)
+	{
+
+		player.decideMoveUsingMINIMAX(game, PlayerMove, 2);
+		game.makeMove(PlayerMove);
+		game.showState();
+		player2.decideMoveUsingMINIMAX(game, PlayerMove, 2);
+		game.makeMove(PlayerMove);
+		game.showState();
+	}
     return 0;
 }

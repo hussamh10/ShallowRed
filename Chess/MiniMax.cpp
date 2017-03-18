@@ -35,6 +35,7 @@ int MiniMax::Maximize(chessState gameState, int alpha, int beta, chessMove &best
 		int minimumValue = Minimize(nextState, alpha, beta, bestMove, depth - 1);
 		if (value < minimumValue) {
 			value = minimumValue;
+			bestMove = nextMoves[i];
 			moveIndex = i;
 		}
 		alpha = alpha > value ? alpha : value;
@@ -60,6 +61,7 @@ int MiniMax::Minimize(chessState gameState, int alpha, int beta, chessMove &best
 		int maximumValue = Maximize(nextState, alpha, beta, bestMove, depth - 1);
 		if (value > maximumValue) {
 			value = maximumValue;
+			bestMove = nextMoves[i];
 			moveIndex = i;
 		}
 		beta = beta < value ? beta : value;
