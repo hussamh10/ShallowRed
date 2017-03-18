@@ -11,7 +11,7 @@ Evaluator* MiniMax::evaluator = nullptr;
 MiniMax::MiniMax(int depth, chessState gameState) : depth(depth), gameState(gameState)
 {
 	if (evaluator == nullptr) {
-		evaluator = new Evaluator(2, 0);
+		evaluator = new Evaluator(1, 20);
 	}
 }
 

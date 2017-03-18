@@ -66,7 +66,7 @@ int Evaluator::material(){
 		for(int j = 0; j < 8; j++){
 			int p = state->board[i][j];
 			if(p > 0){
-				sumP1 += VALUES[p];
+				sumP1 += VALUES[abs(p)];
 				if(p == wBishop){
 					bishopP1++;
 				}
@@ -75,7 +75,7 @@ int Evaluator::material(){
 				}
 			}
 			else if(p < 0){
-				sumP2 += VALUES[p];
+				sumP2 += VALUES[abs(p)];
 				if(p == bBishop){
 					bishopP2++;
 				}
