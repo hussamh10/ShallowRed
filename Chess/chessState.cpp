@@ -235,9 +235,14 @@ void UpLeft(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200
 	bool empty = true;
 	for (int i = row - 1, j = col - 1; empty && i >= 0 && j >= 0; --i, --j)				// up-left
 	{
-		if (board[i][j] == 0 || isWhite == (board[i][j] < 0))							// empty or enemy
+		if (board[i][j] == 0)															// empty or enemy
 		{
 			Moves[index++] = chessMove(row, col, i, j);
+		}
+		else if (isWhite == (board[i][j] < 0))
+		{
+			Moves[index++] = chessMove(row, col, i, j);									// enemy
+			empty = false;
 		}
 		else if (board[i][j] > 0 == isWhite)											// same colour piece found on diagonal
 		{
@@ -251,9 +256,14 @@ void UpRight(int board[8][8], int row, int col, bool isWhite, chessMove Moves[20
 	bool empty = true;
 	for (int i = row - 1, j = col + 1; empty && i >= 0 && j <= 7; --i, ++j)				// up-right
 	{
-		if (board[i][j] == 0 || isWhite == (board[i][j] < 0))							// empty or enemy
+		if (board[i][j] == 0)															// empty or enemy
 		{
 			Moves[index++] = chessMove(row, col, i, j);
+		}
+		else if (isWhite == (board[i][j] < 0))
+		{
+			Moves[index++] = chessMove(row, col, i, j);									// enemy
+			empty = false;
 		}
 		else if (board[i][j] > 0 == isWhite)											// same colour piece found on diagonal
 		{
@@ -267,9 +277,14 @@ void DownLeft(int board[8][8], int row, int col, bool isWhite, chessMove Moves[2
 	bool empty = true;
 	for (int i = row + 1, j = col - 1; empty && i <= 7 && j >= 0; ++i, --j)				// down-left
 	{
-		if (board[i][j] == 0 || isWhite == (board[i][j] < 0))							// empty or enemy
+		if (board[i][j] == 0)															// empty or enemy
 		{
 			Moves[index++] = chessMove(row, col, i, j);
+		}
+		else if (isWhite == (board[i][j] < 0))
+		{
+			Moves[index++] = chessMove(row, col, i, j);									// enemy
+			empty = false;
 		}
 		else if (board[i][j] > 0 == isWhite)											// same colour piece found on diagonal
 		{
@@ -283,9 +298,14 @@ void DownRight(int board[8][8], int row, int col, bool isWhite, chessMove Moves[
 	bool empty = true;
 	for (int i = row + 1, j = col + 1; empty && i <= 7 && j <= 7; ++i, ++j)				// down-right
 	{
-		if (board[i][j] == 0 || isWhite == (board[i][j] < 0))							// empty or enemy
+		if (board[i][j] == 0)															// empty or enemy
 		{
 			Moves[index++] = chessMove(row, col, i, j);
+		}
+		else if (isWhite == (board[i][j] < 0))
+		{
+			Moves[index++] = chessMove(row, col, i, j);									// enemy
+			empty = false;
 		}
 		else if (board[i][j] > 0 == isWhite)											// same colour piece found on diagonal
 		{
@@ -357,9 +377,14 @@ void RookUp(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200
 
 	for (int i = row - 1; empty && i >= 0; --i)											// up
 	{
-		if (board[i][col] == 0 || isWhite == (board[i][col] < 0))						// empty or enemy
+		if (board[i][col] == 0)															// empty
 		{
 			Moves[index++] = chessMove(row, col, i, col);
+		}
+		else if (isWhite == (board[i][col] < 0))										// enemy
+		{
+			Moves[index++] = chessMove(row, col, i, col);
+			empty = false;
 		}
 		else if (board[i][col] > 0 == isWhite)											// same colour piece found on diagonal
 		{
@@ -375,9 +400,14 @@ void RookDown(int board[8][8], int row, int col, bool isWhite, chessMove Moves[2
 
 	for (int i = row + 1; empty && i <= 7; ++i)											// down
 	{
-		if (board[i][col] == 0 || isWhite == (board[i][col] < 0))						// empty or enemy
+		if (board[i][col] == 0)															// empty 
 		{
 			Moves[index++] = chessMove(row, col, i, col);
+		}
+		else if (isWhite == (board[i][col] < 0))										// enemy
+		{
+			Moves[index++] = chessMove(row, col, i, col);
+			empty = false;
 		}
 		else if (board[i][col] > 0 == isWhite)											// same colour piece found on diagonal
 		{
@@ -393,9 +423,14 @@ void RookLeft(int board[8][8], int row, int col, bool isWhite, chessMove Moves[2
 
 	for (int j = col - 1; empty && j >= 0; --j)											// down
 	{
-		if (board[row][j] == 0 || isWhite == (board[row][j] < 0))						// empty or enemy
+		if (board[row][j] == 0)															// empty
 		{
 			Moves[index++] = chessMove(row, col, row, j);
+		}
+		else if (isWhite == (board[row][j] < 0))										// enemy
+		{
+			Moves[index++] = chessMove(row, col, row, j);
+			empty = false;
 		}
 		else if (board[row][j] > 0 == isWhite)											// same colour piece found on diagonal
 		{
@@ -411,9 +446,14 @@ void RookRight(int board[8][8], int row, int col, bool isWhite, chessMove Moves[
 
 	for (int j = col + 1; empty && j <= 7; ++j)											// down
 	{
-		if (board[row][j] == 0 || isWhite == (board[row][j] < 0))						// empty or enemy
+		if (board[row][j] == 0)															// empty 
 		{
 			Moves[index++] = chessMove(row, col, row, j);
+		}
+		else if (isWhite == (board[row][j] < 0))										// enemy
+		{
+			Moves[index++] = chessMove(row, col, row, j);
+			empty = false;
 		}
 		else if (board[row][j] > 0 == isWhite)											// same colour piece found on diagonal
 		{
