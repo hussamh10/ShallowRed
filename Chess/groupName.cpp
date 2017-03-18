@@ -1,6 +1,7 @@
 #include "groupName.h"
 #include "player.h"
 #include "chessState.h"
+#include "MiniMax.h"
 
 playerGROUP_NAME::playerGROUP_NAME(int playerColor):chessPlayer(playerColor)
 {
@@ -14,20 +15,16 @@ int playerGROUP_NAME::decideMoveUsingMINIMAX(chessState &gameState, chessMove& r
 
     returnMove.From[0]=returnMove.From[1]=0;
     returnMove.To[0] = returnMove.To[0] = 0;
-    if(totalMoves <=0 )
+    if(totalMoves <= 0)
     {
-        return -1;
+		return -1;
     }
 
 
     int selectedMove = totalMoves -1;
 
-    // Your code goes here
-
-    returnMove.From[0] = gameState.Moves[selectedMove].From[0];
-    returnMove.From[1] = gameState.Moves[selectedMove].From[1];
-    returnMove.To[0] = gameState.Moves[selectedMove].To[0];
-    returnMove.To[1] = gameState.Moves[selectedMove].To[1];
+	MiniMax mm(depth, gameState);
+	selectedMove = mm.moveToMake(returnMove);
 
     return selectedMove;
 }
