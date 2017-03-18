@@ -12,7 +12,7 @@ Evaluator* MiniMax::evaluator = nullptr;
 MiniMax::MiniMax(int depth, chessState gameState) : depth(depth), gameState(gameState)
 {
 	if (evaluator == nullptr) {
-		evaluator = new Evaluator(1, 20);
+		evaluator = new Evaluator(1, 1000, 100, 100);
 	}
 }
 
@@ -26,7 +26,6 @@ int MiniMax::moveToMake(chessMove& m) {
 int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 	if (depth == 0) {
 		int value = evaluator->evaluate(&gameState);
-		//cout << value << endl;
 		return value;
 	}
 	chessMove bestMove;

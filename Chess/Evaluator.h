@@ -4,7 +4,7 @@
 class Evaluator{
 public:
 
-	Evaluator(int material_wt,  int mobility_wt, int bishop_pair = 500, int no_pawn = 500);
+	Evaluator(int material_wt,  int mobility_wt, int bishop_pair, int no_pawn);
 	int evaluate(chessState * state);
 
 private:
@@ -20,6 +20,7 @@ private:
 	int rookAttacking(int i, int j);
 	int bishopAttacking(int i, int j);
 	int queenAttacking(int i, int j);
+	int pawnAttacking(int i, int j);
 
 
 private:

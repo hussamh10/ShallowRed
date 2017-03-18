@@ -11,9 +11,9 @@ ostream& operator<<(ostream& out, chessMove c) {
 	return out;
 }
 
-
 int main()
 {
+
 	bool clearscreen = true;
 
     cout << "Hello world!" << endl;

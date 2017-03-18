@@ -1,6 +1,10 @@
 #include "Evaluator.h"
 #include <math.h>
 #include <vector>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
 
 using namespace std;
 
@@ -31,9 +35,10 @@ struct cord
 #define wKing 6
 #define bKing -6
 
-Evaluator::Evaluator(int material_wt, int bonuses_wt, int mobility_wt, int penalties_wt):
+Evaluator::Evaluator(int material_wt, int mobility_wt, int bishop_pair, int no_pawn):
 material_wt(material_wt), mobility_wt(mobility_wt), bishop_pair(bishop_pair), no_pawn(no_pawn){
 	state = nullptr;
+	srand(time(NULL));
 }
 
 int Evaluator::evaluate(chessState * state){
@@ -43,6 +48,8 @@ int Evaluator::evaluate(chessState * state){
 	value += material_wt * material();
 	//value += mobility_wt * mobility();
 	value += mobility_wt * attacking();
+
+	value += rand() % 10;
 
 	return value;
 }
@@ -127,6 +134,12 @@ int Evaluator::attacking(){
 			int p = state->board[i][j];
 
 			switch(p){
+				case wPawn:
+					attackingP1 += pawnAttacking(i, j);
+
+				case bPawn:
+					attackingP2 += pawnAttacking(i, j);
+
 				case wKnight:
 					attackingP1 += knightAttacking(i, j);
 					break;
@@ -160,7 +173,12 @@ int Evaluator::attacking(){
 			}
 		}
 	}
-	return attackingP1 - attackingP2;
+	if(state->playerToMove > 0){
+		return attackingP1 - attackingP2;
+	}
+	else{
+		return attackingP2 - attackingP1;
+	}
 }
 
 int Evaluator::knightAttacking(int i, int j){
@@ -188,7 +206,17 @@ int Evaluator::bishopAttacking(int r, int c){
 
 	for(int i = r, j = c; i < 8, j < 8; i++, j++){
 		p = state->board[i][j];
-		if(p != 0){
+		if(p != 0 && i != r){
+			if(!sameSign(p, x)){
+				attacking++;
+			}
+			break;
+		}
+	}
+
+	for(int i = r, j = c; i >= 0, j >= 0; i--, j--){
+		p = state->board[i][j];
+		if(p != 0 && i != r){
 			if(!sameSign(p, x)){
 				attacking++;
 			}
@@ -198,7 +226,7 @@ int Evaluator::bishopAttacking(int r, int c){
 
 	for(int i = r, j = c; i >= 0, j < 8; i--, j++){
 		p = state->board[i][j];
-		if(p != 0){
+		if(p != 0 && i != r){
 			if(!sameSign(p, x)){
 				attacking++;
 			}
@@ -208,7 +236,7 @@ int Evaluator::bishopAttacking(int r, int c){
 
 	for(int i = r, j = c; i > 8, j >= 0; i++, j--){
 		p = state->board[i][j];
-		if(p != 0){
+		if(p != 0 && i != r){
 			if(!sameSign(p, x)){
 				attacking++;
 			}
@@ -226,7 +254,7 @@ int Evaluator::rookAttacking(int r, int c){
 
 	for(int i = r; i < 8; i++){
 		p = state->board[i][c];
-		if(p != 0){
+		if(p != 0 && i != r){
 			if(!sameSign(p, x)){
 				attacking++;
 			}
@@ -236,7 +264,7 @@ int Evaluator::rookAttacking(int r, int c){
 
 	for(int i = r; i >= 0; i--){
 		p = state->board[i][c];
-		if(p != 0){
+		if(p != 0 && i != r){
 			if(!sameSign(p, x)){
 				attacking++;
 			}
@@ -246,7 +274,7 @@ int Evaluator::rookAttacking(int r, int c){
 
 	for(int i = c; i < 8; i++){
 		p = state->board[r][i];
-		if(p != 0){
+		if(p != 0 && i != c){
 			if(!sameSign(p, x)){
 				attacking++;
 			}
@@ -256,13 +284,63 @@ int Evaluator::rookAttacking(int r, int c){
 
 	for(int i = c; i >= 8; i--){
 		p = state->board[r][i];
-		if(p != 0){
+		if(p != 0 && i != c){
 			if(!sameSign(p, x)){
 				attacking++;
 			}
 			break;
 		}
 	}
+	return attacking;
+}
 
+int Evaluator::pawnAttacking(int i, int j){
+	int p = state->board[i][j];
+	int attacking = 0;
+
+	if(p > 0){ 
+		if(i < 7){
+			if(j > 0){
+				int b = state->board[i + 1][j - 1];
+				if(b != 0){
+					if(!sameSign(p, b)){
+						attacking++;
+					}
+				}
+			}	
+			if(j < 7){
+				int b = state->board[i + 1][j + 1];
+				if(b != 0){
+					if(!sameSign(p, b)){
+						attacking++;
+					}
+				}
+			}
+		}
+	}
+
+	if(p < 0){ 
+		if(i > 0){
+			if(j > 0)
+			{
+				int b = state->board[i - 1][j - 1];
+				if(b != 0){
+					if(!sameSign(p, b))
+					{
+						attacking++;
+					}
+				}
+			}	
+			if(j < 7)
+			{
+				int b = state->board[i - 1][j + 1];
+				if(b != 0){
+					if(!sameSign(p, b)){
+						attacking++;
+					}
+				}
+			}
+		}
+	}
 	return attacking;
 }
