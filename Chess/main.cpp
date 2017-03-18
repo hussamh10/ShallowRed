@@ -18,13 +18,14 @@ int main()
 
 	for (int i = 0; i < 20; ++i)
 	{
+		getch();
 		player.decideMoveUsingMINIMAX(game, PlayerMove, 2);
 		game.makeMove(PlayerMove);
 		game.showState();
+		getch();
 		player2.decideMoveUsingMINIMAX(game, PlayerMove, 2);
 		game.makeMove(PlayerMove);
 		game.showState();
-		getch();
 	}
     return 0;
 }
