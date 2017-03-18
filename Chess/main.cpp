@@ -1,4 +1,5 @@
 #include <iostream>
+#include <conio.h>
 #include "groupName.h"
 #include "chessState.h"
 #include "move.h"
@@ -15,15 +16,15 @@ int main()
 	playerGROUP_NAME player2(-1);
     int totalMoves = game.makeValidMovesList();
 
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < 20; ++i)
 	{
-
 		player.decideMoveUsingMINIMAX(game, PlayerMove, 2);
 		game.makeMove(PlayerMove);
 		game.showState();
 		player2.decideMoveUsingMINIMAX(game, PlayerMove, 2);
 		game.makeMove(PlayerMove);
 		game.showState();
+		getch();
 	}
     return 0;
 }
