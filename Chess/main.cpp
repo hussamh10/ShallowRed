@@ -5,11 +5,18 @@
 #include "move.h"
 using namespace std;
 
+ostream& operator<<(ostream& out, chessMove c) {
+	out << "From (" << c.From[0] << ", " << c.From[1] << ") ";
+	out << "To (" << c.To[0] << ", " << c.To[1] << ")";
+	return out;
+}
+
+
 int main()
 {
     cout << "Hello world!" << endl;
     chessState game;
-    game.showState();
+	game.showState();
     chessMove PlayerMove;
 
 	playerGROUP_NAME player(1);
@@ -20,10 +27,12 @@ int main()
 	{
 		getch();
 		player.decideMoveUsingMINIMAX(game, PlayerMove, 2);
+		cout << PlayerMove << endl;
 		game.makeMove(PlayerMove);
 		game.showState();
 		getch();
 		player2.decideMoveUsingMINIMAX(game, PlayerMove, 2);
+		cout << PlayerMove << endl;
 		game.makeMove(PlayerMove);
 		game.showState();
 	}
