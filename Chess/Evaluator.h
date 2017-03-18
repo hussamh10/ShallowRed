@@ -14,6 +14,12 @@ private:
 
 	int material();
 	int mobility();
+	int attacking();
+	
+	int knightAttacking(int i, int j);
+	int rookAttacking(int i, int j);
+	int bishopAttacking(int i, int j);
+	int queenAttacking(int i, int j);
 
 
 private:
