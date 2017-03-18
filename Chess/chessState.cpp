@@ -39,7 +39,6 @@ void makeWhitePawnMoves(int board[8][8], int row, int col, chessMove Moves[200],
 	}
 }
 
-
 void makeBlackPawnMoves(int board[8][8], int row, int col, chessMove Moves[200], int & index)
 {
 	// Black Pawns move downwards

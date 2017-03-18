@@ -3,6 +3,7 @@
 #include "move.h"
 #include "Evaluator.h"
 #include <climits>
+#include <iostream>
 using namespace std;
 
 Evaluator* MiniMax::evaluator = nullptr;
@@ -23,7 +24,9 @@ int MiniMax::moveToMake(chessMove& m) {
 
 int MiniMax::Maximize(chessState gameState, int alpha, int beta, chessMove &bestMove, int depth) {
 	if (depth == 0) {
-		return evaluator->evaluate(&gameState);
+		int value = evaluator->evaluate(&gameState);
+		//cout << value << endl;
+		return value;
 	}
 	chessMove *nextMoves;
 	int count = gameState.makeValidMovesList();
@@ -49,7 +52,9 @@ int MiniMax::Maximize(chessState gameState, int alpha, int beta, chessMove &best
 
 int MiniMax::Minimize(chessState gameState, int alpha, int beta, chessMove &bestMove, int depth) {
 	if (depth == 0) {
-		return evaluator->evaluate(&gameState);
+		int value = evaluator->evaluate(&gameState);
+		//cout << value << endl;
+		return value;
 	}
 	chessMove *nextMoves;
 	int count = gameState.makeValidMovesList();

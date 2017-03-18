@@ -20,12 +20,13 @@ int main()
 	{
 		getch();
 		player.decideMoveUsingMINIMAX(game, PlayerMove, 2);
+		game.showState();
 		game.makeMove(PlayerMove);
 		game.showState();
 		getch();
+		game.showState();
 		player2.decideMoveUsingMINIMAX(game, PlayerMove, 2);
 		game.makeMove(PlayerMove);
-		game.showState();
 	}
     return 0;
 }
