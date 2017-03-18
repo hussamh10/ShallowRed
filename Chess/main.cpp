@@ -14,6 +14,8 @@ ostream& operator<<(ostream& out, chessMove c) {
 
 int main()
 {
+	bool clearscreen = true;
+
     cout << "Hello world!" << endl;
     chessState game;
 	game.showState();
@@ -23,14 +25,18 @@ int main()
 	playerGROUP_NAME player2(-1);
     int totalMoves = game.makeValidMovesList();
 
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; ; ++i)
 	{
 		getch();
+		if (clearscreen)
+			system("cls");
 		player.decideMoveUsingMINIMAX(game, PlayerMove, 2);
 		cout << PlayerMove << endl;
 		game.makeMove(PlayerMove);
 		game.showState();
 		getch();
+		if (clearscreen)
+			system("cls");
 		player2.decideMoveUsingMINIMAX(game, PlayerMove, 2);
 		cout << PlayerMove << endl;
 		game.makeMove(PlayerMove);
