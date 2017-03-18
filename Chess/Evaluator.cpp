@@ -42,6 +42,7 @@ int Evaluator::evaluate(chessState * state){
 	
 	value += material_wt * material();
 	//value += mobility_wt * mobility();
+	value += mobility_wt * attacking();
 
 	return value;
 }
@@ -159,20 +160,62 @@ int Evaluator::attacking(){
 			}
 		}
 	}
-
 	return attackingP1 - attackingP2;
 }
 
 int Evaluator::knightAttacking(int i, int j){
-	vector<cord> moves;
-		
-	moves.push_back(cord(i - 2, j - 1));
+	/*
+	TODO
+	*/
+	return 0;
 }
 
 bool sameSign(int a, int b){
 	a = a / abs(a);
 	b = b / abs(b);
 	return (a == b);
+}
+
+int Evaluator::queenAttacking(int r, int c){
+	return bishopAttacking(r, c) + rookAttacking(r, c);
+}
+
+int Evaluator::bishopAttacking(int r, int c){
+	int x = state->board[r][c];
+	int attacking = 0;
+
+	int p;
+
+	for(int i = r, int j = c; i < 8, j < 8; i++, j++){
+		p = state->board[i][j];
+		if(p != 0){
+			if(!sameSign(p, x)){
+				attacking++;
+			}
+			break;
+		}
+	}
+
+	for(int i = r, int j = c; i >= 0, j < 8; i--, j++){
+		p = state->board[i][j];
+		if(p != 0){
+			if(!sameSign(p, x)){
+				attacking++;
+			}
+			break;
+		}
+	}
+
+	for(int i = r, int j = c; i > 8, j >= 0; i++, j--){
+		p = state->board[i][j];
+		if(p != 0){
+			if(!sameSign(p, x)){
+				attacking++;
+			}
+			break;
+		}
+	}
+	return attacking;
 }
 
 int Evaluator::rookAttacking(int r, int c){
@@ -183,8 +226,7 @@ int Evaluator::rookAttacking(int r, int c){
 
 	for(int i = r; i < 8; i++){
 		p = state->board[i][c];
-		if(p != 0)
-		{
+		if(p != 0){
 			if(!sameSign(p, x)){
 				attacking++;
 			}
@@ -194,8 +236,7 @@ int Evaluator::rookAttacking(int r, int c){
 
 	for(int i = r; i >= 0; i--){
 		p = state->board[i][c];
-		if(p != 0)
-		{
+		if(p != 0){
 			if(!sameSign(p, x)){
 				attacking++;
 			}
@@ -205,8 +246,7 @@ int Evaluator::rookAttacking(int r, int c){
 
 	for(int i = c; i < 8; i++){
 		p = state->board[r][i];
-		if(p != 0)
-		{
+		if(p != 0){
 			if(!sameSign(p, x)){
 				attacking++;
 			}
@@ -216,8 +256,7 @@ int Evaluator::rookAttacking(int r, int c){
 
 	for(int i = c; i >= 8; i--){
 		p = state->board[r][i];
-		if(p != 0)
-		{
+		if(p != 0){
 			if(!sameSign(p, x)){
 				attacking++;
 			}
