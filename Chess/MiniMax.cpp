@@ -17,17 +17,19 @@ MiniMax::MiniMax(int depth, chessState gameState) : depth(depth), gameState(game
 }
 
 int MiniMax::moveToMake(chessMove& m) {
-	Maximize(gameState, INT_MIN + 1, INT_MAX - 1, m, depth);
+	Maximize(gameState, INT_MIN + 1, INT_MAX - 1, depth);
+	m = bestMove;
 	return moveIndex;
 }
 
 
-int MiniMax::Maximize(chessState gameState, int alpha, int beta, chessMove &bestMove, int depth) {
+int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 	if (depth == 0) {
 		int value = evaluator->evaluate(&gameState);
 		//cout << value << endl;
 		return value;
 	}
+	chessMove bestMove;
 	chessMove *nextMoves;
 	int count = gameState.makeValidMovesList();
 	nextMoves = gameState.Moves;
@@ -35,7 +37,7 @@ int MiniMax::Maximize(chessState gameState, int alpha, int beta, chessMove &best
 	for (int i = 0; i < count; ++i) {
 		chessState nextState = gameState;
 		nextState.makeMove(nextMoves[i]);
-		int minimumValue = Minimize(nextState, alpha, beta, bestMove, depth - 1);
+		int minimumValue = Minimize(nextState, alpha, beta, depth - 1);
 		if (value < minimumValue) {
 			value = minimumValue;
 			bestMove = nextMoves[i];
@@ -47,15 +49,17 @@ int MiniMax::Maximize(chessState gameState, int alpha, int beta, chessMove &best
 			break;
 		}
 	}
+	this->bestMove = bestMove;
 	return value;
 }
 
-int MiniMax::Minimize(chessState gameState, int alpha, int beta, chessMove &bestMove, int depth) {
+int MiniMax::Minimize(chessState gameState, int alpha, int beta, int depth) {
 	if (depth == 0) {
 		int value = evaluator->evaluate(&gameState);
 		//cout << value << endl;
 		return value;
 	}
+	chessMove bestMove;
 	chessMove *nextMoves;
 	int count = gameState.makeValidMovesList();
 	nextMoves = gameState.Moves;
@@ -63,7 +67,7 @@ int MiniMax::Minimize(chessState gameState, int alpha, int beta, chessMove &best
 	for (int i = 0; i < count; ++i) {
 		chessState nextState = gameState;
 		nextState.makeMove(nextMoves[i]);
-		int maximumValue = Maximize(nextState, alpha, beta, bestMove, depth - 1);
+		int maximumValue = Maximize(nextState, alpha, beta, depth - 1);
 		if (value > maximumValue) {
 			value = maximumValue;
 			bestMove = nextMoves[i];
@@ -75,5 +79,6 @@ int MiniMax::Minimize(chessState gameState, int alpha, int beta, chessMove &best
 			break;
 		}
 	}
+	this->bestMove = bestMove;
 	return value;
 }
