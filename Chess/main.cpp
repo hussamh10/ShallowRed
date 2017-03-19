@@ -47,7 +47,7 @@ int main()
 			system("cls");
 		}
 
-		checkmate = players[i % 2].decideMoveUsingMINIMAX(game, PlayerMove, 3);
+		checkmate = players[i % 2].decideMoveUsingMINIMAX(game, PlayerMove, 1);
 		cout << PlayerMove << endl;
 		cout << "Turn: " << i << endl;
 		game.makeMove(PlayerMove);
@@ -78,7 +78,7 @@ int main()
 #define bKing -6
 
 
-bool inCheck(chessState state, int playerToMove) {
+bool inCheck(chessState state) {
 
 bool blocked;
 
