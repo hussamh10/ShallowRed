@@ -37,7 +37,7 @@ int MiniMax::moveToMake(chessMove& m) {
 	return moveIndex;
 }
 
-bool inCheck(chessState);
+bool inCheck(chessState, int);
 
 int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 	if (depth == 0) {
@@ -53,9 +53,9 @@ int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 	for (int i = 0; i < count; ++i) {
 		chessState nextState = gameState;
 		nextState.makeMove(nextMoves[i]);
-		if (inCheck(nextState))
+		if (inCheck(nextState, gameState.playerToMove))
 		{
-			continue;													// skip if move leads into check
+			continue;
 		}
 		int minimumValue = Minimize(nextState, alpha, beta, depth - 1);
 		if (value < minimumValue) {
@@ -88,9 +88,9 @@ int MiniMax::Minimize(chessState gameState, int alpha, int beta, int depth) {
 	for (int i = 0; i < count; ++i) {
 		chessState nextState = gameState;
 		nextState.makeMove(nextMoves[i]);
-		if (inCheck(nextState))												
+		if (inCheck(nextState, gameState.playerToMove))
 		{
-			continue;																// skip if move leads into check
+			continue;
 		}
 		int maximumValue = Maximize(nextState, alpha, beta, depth - 1);
 		if (value > maximumValue) {
@@ -110,7 +110,7 @@ int MiniMax::Minimize(chessState gameState, int alpha, int beta, int depth) {
 }
 
 
-bool inCheck(chessState state) {
+bool inCheck(chessState state, int playerToMove) {
 
 	bool blocked;
 
@@ -123,7 +123,7 @@ bool inCheck(chessState state) {
 	int kingI;
 	int kingJ;
 
-	if (state.playerToMove == -1) {
+	if (playerToMove == -1) {
 		// black's turn
 		// whites are enemies
 		enemyPawn = wPawn;
