@@ -66,8 +66,6 @@ Evaluator::Evaluator(int material_wt, int mobility_wt, int bishop_pair, int no_p
 material_wt(material_wt), mobility_wt(mobility_wt), bishop_pair(bishop_pair), no_pawn(no_pawn){
 	state = nullptr;
 	srand(time(NULL));
-
-	weights = new int [18];
 }
 
 int Evaluator::evaluate(chessState * state){
