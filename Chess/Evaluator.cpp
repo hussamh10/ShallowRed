@@ -21,6 +21,32 @@ struct cord
 	int j;
 };
 
+/*
+	Weights being used
+	int:	
+		queen_p
+		pawns_p
+		bishop_p
+		rook_p
+		knight_p
+
+		queen_o
+		pawns_o
+		bishop_o
+		rook_o
+		knight_o
+		
+		attacking_p
+		attacking_o
+
+		no_peices_on_other_side_p
+		no_peices_on_other_side_o
+
+		mobility_p
+		mobility_o
+
+*/
+
 #define Empty 0
 #define wPawn 1
 #define bPawn -1
@@ -39,6 +65,8 @@ Evaluator::Evaluator(int material_wt, int mobility_wt, int bishop_pair, int no_p
 material_wt(material_wt), mobility_wt(mobility_wt), bishop_pair(bishop_pair), no_pawn(no_pawn){
 	state = nullptr;
 	srand(time(NULL));
+
+	weights = new int [18];
 }
 
 int Evaluator::evaluate(chessState * state){
@@ -46,7 +74,7 @@ int Evaluator::evaluate(chessState * state){
 	this->state = state;
 	
 	value += material_wt * material();
-	//value += mobility_wt * mobility();
+	value += 20 * mobility();
 	value += mobility_wt * attacking();
 
 	value += rand() % 10;
@@ -120,9 +148,7 @@ int Evaluator::material(){
 }
 
 int Evaluator::mobility(){
-	int moves = 0;
-	//moves = AllValidMoves(p1) - AllValidMoves(p2);
-	return moves;
+	return state->makeValidMovesList();
 }
 
 int Evaluator::attacking(){

@@ -22,13 +22,14 @@ private:
 	int queenAttacking(int i, int j);
 	int pawnAttacking(int i, int j);
 
-
 private:
 
 	int material_wt;
 	int mobility_wt;
 	int bishop_pair;
 	int no_pawn;
+
+	int* weights;
 
 	chessState * state;
 };
