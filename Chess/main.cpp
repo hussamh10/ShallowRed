@@ -1,5 +1,6 @@
 #include <iostream>
 #include <conio.h>
+#include "MatrixSolver.h"
 #include "groupName.h"
 #include "chessState.h"
 #include "move.h"
