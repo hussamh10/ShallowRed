@@ -88,6 +88,8 @@ int Evaluator::regression(){
 	vector<int> X = getX();
 	//Haroon
 	//vector<int> Y = matrix_multipication(weights, X);
+
+	return 0;
 }
 
 int Evaluator::material(){
