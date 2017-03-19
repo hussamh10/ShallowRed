@@ -75,7 +75,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)armadillo\include;$(IncludePath)</IncludePath>
-    <LibraryPath>"$(ProjectDir)armadillo\lib_win64";C:\Users\M_har\Desktop\AI\Project\Chess\Chess\armadillo\lib_win64;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)armadillo\lib_win64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -110,7 +110,7 @@
       <AdditionalDependencies>lapack_win64_MT.lib;blas_win64_MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>XCOPY "$(MSBuildProjectDirectory)\armadillo\lib_win64\*.dll" "$(SolutionDir)$(Platform)\$(Configuration)\" /Y</Command>
+      <Command>XCOPY "$(ProjectDir)armadillo\lib_win64\*.dll" "$(SolutionDir)$(Platform)\$(Configuration)\" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
