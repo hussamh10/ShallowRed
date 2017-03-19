@@ -48,14 +48,14 @@ int main()
 			system("cls");
 		}
 
-		players[i].decideMoveUsingMINIMAX(game, PlayerMove, 3);
+		players[i % 2].decideMoveUsingMINIMAX(game, PlayerMove, 3);
 		cout << PlayerMove << endl;
 		game.makeMove(PlayerMove);
 		game.showState();
-		i = (i + 1) % 2;
+		i++;
 	}
 	cout << "Winner: " << game.playerToMove * -1 << endl;
-	cout << "Game ENDED" << endl;
+	cout << "Game ended in " << i << " turns" << endl;
 
     return 0;
 }
