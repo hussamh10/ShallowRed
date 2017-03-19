@@ -16,29 +16,19 @@
 
 using namespace std;
 
+
+bool inCheck(chessState state, int);
+
 bool chessState::makeMove(chessMove pieceMove)
 {
 	board[pieceMove.To[0]][pieceMove.To[1]] = board[pieceMove.From[0]][pieceMove.From[1]];
 	board[pieceMove.From[0]][pieceMove.From[1]] = 0;
 	this->playerToMove *= -1;
 
-    return true;
+	return true;
 }
 
-void resetStateBoard(chessState & state, int board[8][8])
-{
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			state.board[i][j] = board[i][j];
-		}
-	}
-}
-
-bool inCheck(chessState state);
-
-void makeWhitePawnMoves(int board[8][8], int row, int col, chessState & state, chessMove Moves[200], int & index)
+void makeWhitePawnMoves(int board[8][8], int row, int col, chessMove Moves[200], int & index)
 {
 	// White Pawns move upwards
 
@@ -46,51 +36,27 @@ void makeWhitePawnMoves(int board[8][8], int row, int col, chessState & state, c
 	{
 		if (board[row - 1][col] == 0 && board[row - 2][col] == 0)			// first move for pawn
 		{
-			chessMove move(row, col, row - 2, col);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, row - 2, col);
 		}
 	}
 	if (row >= 1)
 	{
 		if (board[row - 1][col] == 0)										// move one up
 		{
-			chessMove move(row, col, row - 1, col);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, row - 1, col);
 		}
 		if (col >= 1 && board[row - 1][col - 1] < 0)						// capture enemy piece diagonally (left)
 		{
-			chessMove move(row, col, row - 1, col-1);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, row - 1, col - 1);
 		}
 		if (col <= 6 && board[row - 1][col + 1] < 0)						// capture enemy piece diagonally (right)
 		{
-			chessMove move(row, col, row - 1, col + 1);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, row - 1, col + 1);
 		}
 	}
 }
 
-void makeBlackPawnMoves(int board[8][8], int row, int col, chessState & state, chessMove Moves[200], int & index)
+void makeBlackPawnMoves(int board[8][8], int row, int col, chessMove Moves[200], int & index)
 {
 	// Black Pawns move downwards
 
@@ -98,285 +64,201 @@ void makeBlackPawnMoves(int board[8][8], int row, int col, chessState & state, c
 	{
 		if (board[row + 1][col] == 0 && board[row + 2][col] == 0)			// first move for pawn
 		{
-			chessMove move(row, col, row + 2, col);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, row + 2, col);
 		}
 	}
 	if (row <= 6)
 	{
 		if (board[row + 1][col] == 0)										// move one down
 		{
-			chessMove move(row, col, row + 1, col);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, row + 1, col);
 		}
 		if (col >= 1 && board[row + 1][col - 1] > 0)						// capture enemy piece diagonally (left)
 		{
-			chessMove move(row, col, row + 1, col - 1);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, row + 1, col - 1);
 		}
 		if (col <= 6 && board[row + 1][col + 1] > 0)						// capture enemy piece diagonally (right)
 		{
-			chessMove move(row, col, row + 1, col + 1);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, row + 1, col + 1);
 		}
 	}
 }
 
-void TwoDownOneRight(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void TwoDownOneRight(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	if (board[row + 2][col + 1] == 0 || isWhite == (board[row + 2][col + 1] < 0))			// (2-down, 1-right)
 	{																						// capture if enemy
-		chessMove move(row, col, row + 2, col + 1);											// move if empty
-		resetStateBoard(state, board);
-		state.makeMove(move);
-		if (!inCheck(state))
-		{
-			Moves[index++] = move;
-		}
+		Moves[index++] = chessMove(row, col, row + 2, col + 1);								// move if empty
 	}
 }
 
-void TwoDownOneLeft(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void TwoDownOneLeft(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	if (board[row + 2][col - 1] == 0 || isWhite == (board[row + 2][col - 1] < 0))			// (2-down, 1-left)
 	{																						// capture if enemy
-		chessMove move(row, col, row + 2, col - 1);											// move if empty
-		resetStateBoard(state, board);
-		state.makeMove(move);
-		if (!inCheck(state))
-		{
-			Moves[index++] = move;
-		}
+		Moves[index++] = chessMove(row, col, row + 2, col - 1);								// move if empty
 	}
 }
 
-void TwoUpOneRight(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void TwoUpOneRight(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	if (board[row - 2][col + 1] == 0 || isWhite == (board[row - 2][col + 1] < 0))			// (2-up, 1-right)
 	{																						// capture if enemy
-		chessMove move(row, col, row - 2, col + 1);											// move if empty
-		resetStateBoard(state, board);
-		state.makeMove(move);
-		if (!inCheck(state))
-		{
-			Moves[index++] = move;
-		}
+		Moves[index++] = chessMove(row, col, row - 2, col + 1);								// move if empty
 	}
 }
 
-void TwoUpOneLeft(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void TwoUpOneLeft(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	if (board[row - 2][col - 1] == 0 || isWhite == (board[row - 2][col - 1] < 0))			// (2-up, 1-left)
 	{																						// capture if enemy
-		chessMove move(row, col, row - 2, col - 1);											// move if empty
-		resetStateBoard(state, board);
-		state.makeMove(move);
-		if (!inCheck(state))
-		{
-			Moves[index++] = move;
-		}
+		Moves[index++] = chessMove(row, col, row - 2, col - 1);								// move if empty
 	}
 }
 
-void TwoLeftOneDown(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void TwoLeftOneDown(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	if (board[row + 1][col - 2] == 0 || isWhite == (board[row + 1][col - 2] < 0))			// (2-left, 1-down)
 	{																						// capture if enemy
-		chessMove move(row, col, row + 1, col - 2);								// move if empty
-		resetStateBoard(state, board);
-		state.makeMove(move);
-		if (!inCheck(state))
-		{
-			Moves[index++] = move;
-		}
+		Moves[index++] = chessMove(row, col, row + 1, col - 2);								// move if empty
 	}
 }
 
-void TwoLeftOneUp(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void TwoLeftOneUp(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	if (board[row - 1][col - 2] == 0 || isWhite == (board[row - 1][col - 2] < 0))			// (2-left, 1-up)
 	{																						// capture if enemy
-		chessMove move(row, col, row - 1, col - 2);								// move if empty
-		resetStateBoard(state, board);
-		state.makeMove(move);
-		if (!inCheck(state))
-		{
-			Moves[index++] = move;
-		}
+		Moves[index++] = chessMove(row, col, row - 1, col - 2);								// move if empty
 	}
 }
 
-void TwoRightOneDown(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void TwoRightOneDown(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	if (board[row + 1][col + 2] == 0 || isWhite == (board[row + 1][col + 2] < 0))			// (2-right, 1-down)
 	{																						// capture if enemy
-		chessMove move(row, col, row + 1, col + 2);								// move if empty
-		resetStateBoard(state, board);
-		state.makeMove(move);
-		if (!inCheck(state))
-		{
-			Moves[index++] = move;
-		}
+		Moves[index++] = chessMove(row, col, row + 1, col + 2);								// move if empty
 	}
 }
 
-void TwoRightOneUp(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void TwoRightOneUp(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	if (board[row - 1][col + 2] == 0 || isWhite == (board[row - 1][col + 2] < 0))			// (2-right, 1-up)
 	{																						// capture if enemy
-		chessMove move(row, col, row - 1, col + 2);								// move if empty
-		resetStateBoard(state, board);
-		state.makeMove(move);
-		if (!inCheck(state))
-		{
-			Moves[index++] = move;
-		}
+		Moves[index++] = chessMove(row, col, row - 1, col + 2);								// move if empty
 	}
 }
 
-void makeKnightMoves(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void makeKnightMoves(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	if (row <= 1)																					// only possible to move down
 	{
-		if (col <= 1)																				
+		if (col <= 1)
 		{
-			TwoDownOneRight(board, row, col, isWhite, state, Moves, index);
-			TwoRightOneDown(board, row, col, isWhite, state, Moves, index);
-			if (col == 1)																			
+			TwoDownOneRight(board, row, col, isWhite, Moves, index);
+			TwoRightOneDown(board, row, col, isWhite, Moves, index);
+			if (col == 1)
 			{
-				TwoDownOneLeft(board, row, col, isWhite, state, Moves, index);
+				TwoDownOneLeft(board, row, col, isWhite, Moves, index);
 			}
 		}
-		else if (col >= 6)																			
+		else if (col >= 6)
 		{
-			TwoDownOneLeft(board, row, col, isWhite, state, Moves, index);
-			TwoLeftOneDown(board, row, col, isWhite, state, Moves, index);
-			if (col == 6)																			
+			TwoDownOneLeft(board, row, col, isWhite, Moves, index);
+			TwoLeftOneDown(board, row, col, isWhite, Moves, index);
+			if (col == 6)
 			{
-				TwoDownOneRight(board, row, col, isWhite, state, Moves, index);
+				TwoDownOneRight(board, row, col, isWhite, Moves, index);
 			}
 		}
 		else																						// all moves possible except up
 		{
-			TwoLeftOneDown(board, row, col, isWhite, state, Moves, index);
-			TwoDownOneLeft(board, row, col, isWhite, state, Moves, index);
-			TwoDownOneRight(board, row, col, isWhite, state, Moves, index);
-			TwoRightOneDown(board, row, col, isWhite, state, Moves, index);
+			TwoLeftOneDown(board, row, col, isWhite, Moves, index);
+			TwoDownOneLeft(board, row, col, isWhite, Moves, index);
+			TwoDownOneRight(board, row, col, isWhite, Moves, index);
+			TwoRightOneDown(board, row, col, isWhite, Moves, index);
 		}
 	}
 	else if (row >= 6)																				// only possible to move up
 	{
-		if (col <= 1)																				
+		if (col <= 1)
 		{
-			TwoUpOneRight(board, row, col, isWhite, state, Moves, index);
-			TwoRightOneUp(board, row, col, isWhite, state, Moves, index);
-			if (col == 1)																			
+			TwoUpOneRight(board, row, col, isWhite, Moves, index);
+			TwoRightOneUp(board, row, col, isWhite, Moves, index);
+			if (col == 1)
 			{
-				TwoUpOneLeft(board, row, col, isWhite, state, Moves, index);
+				TwoUpOneLeft(board, row, col, isWhite, Moves, index);
 			}
 		}
-		else if (col >= 6)																			
+		else if (col >= 6)
 		{
-			TwoUpOneLeft(board, row, col, isWhite, state, Moves, index);
-			TwoLeftOneUp(board, row, col, isWhite, state, Moves, index);
-			if (col == 6)																			
+			TwoUpOneLeft(board, row, col, isWhite, Moves, index);
+			TwoLeftOneUp(board, row, col, isWhite, Moves, index);
+			if (col == 6)
 			{
-				TwoUpOneRight(board, row, col, isWhite, state, Moves, index);
+				TwoUpOneRight(board, row, col, isWhite, Moves, index);
 			}
 		}
 		else																						// all possible moves except down 
 		{
-			TwoLeftOneUp(board, row, col, isWhite, state, Moves, index);
-			TwoUpOneLeft(board, row, col, isWhite, state, Moves, index);
-			TwoUpOneRight(board, row, col, isWhite, state, Moves, index);
-			TwoRightOneUp(board, row, col, isWhite, state, Moves, index);
+			TwoLeftOneUp(board, row, col, isWhite, Moves, index);
+			TwoUpOneLeft(board, row, col, isWhite, Moves, index);
+			TwoUpOneRight(board, row, col, isWhite, Moves, index);
+			TwoRightOneUp(board, row, col, isWhite, Moves, index);
 		}
 	}
 	else
 	{
 		if (col <= 1)
 		{
-			TwoUpOneRight(board, row, col, isWhite, state, Moves, index);
-			TwoRightOneUp(board, row, col, isWhite, state, Moves, index);
-			TwoRightOneDown(board, row, col, isWhite, state, Moves, index);
-			TwoDownOneRight(board, row, col, isWhite, state, Moves, index);
+			TwoUpOneRight(board, row, col, isWhite, Moves, index);
+			TwoRightOneUp(board, row, col, isWhite, Moves, index);
+			TwoRightOneDown(board, row, col, isWhite, Moves, index);
+			TwoDownOneRight(board, row, col, isWhite, Moves, index);
 			if (col == 1)
 			{
-				TwoUpOneLeft(board, row, col, isWhite, state, Moves, index);
-				TwoDownOneLeft(board, row, col, isWhite, state, Moves, index);
+				TwoUpOneLeft(board, row, col, isWhite, Moves, index);
+				TwoDownOneLeft(board, row, col, isWhite, Moves, index);
 			}
 		}
 		else if (col >= 6)
 		{
-			TwoUpOneLeft(board, row, col, isWhite, state, Moves, index);
-			TwoLeftOneUp(board, row, col, isWhite, state, Moves, index);
-			TwoLeftOneDown(board, row, col, isWhite, state, Moves, index);
-			TwoDownOneLeft(board, row, col, isWhite, state, Moves, index);
+			TwoUpOneLeft(board, row, col, isWhite, Moves, index);
+			TwoLeftOneUp(board, row, col, isWhite, Moves, index);
+			TwoLeftOneDown(board, row, col, isWhite, Moves, index);
+			TwoDownOneLeft(board, row, col, isWhite, Moves, index);
 			if (col == 6)
 			{
-				TwoUpOneRight(board, row, col, isWhite, state, Moves, index);
-				TwoDownOneRight(board, row, col, isWhite, state, Moves, index);
+				TwoUpOneRight(board, row, col, isWhite, Moves, index);
+				TwoDownOneRight(board, row, col, isWhite, Moves, index);
 			}
 		}
 		else																						// all possible moves 
 		{
-			TwoLeftOneUp(board, row, col, isWhite, state, Moves, index);
-			TwoUpOneLeft(board, row, col, isWhite, state, Moves, index);
-			TwoUpOneRight(board, row, col, isWhite, state, Moves, index);
-			TwoRightOneUp(board, row, col, isWhite, state, Moves, index);
-			TwoRightOneDown(board, row, col, isWhite, state, Moves, index);
-			TwoDownOneRight(board, row, col, isWhite, state, Moves, index);
-			TwoDownOneLeft(board, row, col, isWhite, state, Moves, index);
-			TwoLeftOneDown(board, row, col, isWhite, state, Moves, index);
+			TwoLeftOneUp(board, row, col, isWhite, Moves, index);
+			TwoUpOneLeft(board, row, col, isWhite, Moves, index);
+			TwoUpOneRight(board, row, col, isWhite, Moves, index);
+			TwoRightOneUp(board, row, col, isWhite, Moves, index);
+			TwoRightOneDown(board, row, col, isWhite, Moves, index);
+			TwoDownOneRight(board, row, col, isWhite, Moves, index);
+			TwoDownOneLeft(board, row, col, isWhite, Moves, index);
+			TwoLeftOneDown(board, row, col, isWhite, Moves, index);
 		}
 	}
 }
 
-void UpLeft(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void UpLeft(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	bool empty = true;
 	for (int i = row - 1, j = col - 1; empty && i >= 0 && j >= 0; --i, --j)				// up-left
 	{
 		if (board[i][j] == 0)															// empty or enemy
 		{
-			chessMove move(row, col, i, j);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, i, j);
 		}
 		else if (isWhite == (board[i][j] < 0))
 		{
-			chessMove move(row, col, i, j);									// enemy
+			Moves[index++] = chessMove(row, col, i, j);									// enemy
 			empty = false;
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
 		}
 		else if (board[i][j] > 0 == isWhite)											// same colour piece found on diagonal
 		{
@@ -385,31 +267,19 @@ void UpLeft(int board[8][8], int row, int col, bool isWhite, chessState & state,
 	}
 }
 
-void UpRight(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void UpRight(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	bool empty = true;
 	for (int i = row - 1, j = col + 1; empty && i >= 0 && j <= 7; --i, ++j)				// up-right
 	{
 		if (board[i][j] == 0)															// empty or enemy
 		{
-			chessMove move(row, col, i, j);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, i, j);
 		}
 		else if (isWhite == (board[i][j] < 0))
 		{
-			chessMove move(row, col, i, j);									// enemy
+			Moves[index++] = chessMove(row, col, i, j);									// enemy
 			empty = false;
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
 		}
 		else if (board[i][j] > 0 == isWhite)											// same colour piece found on diagonal
 		{
@@ -418,31 +288,19 @@ void UpRight(int board[8][8], int row, int col, bool isWhite, chessState & state
 	}
 }
 
-void DownLeft(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void DownLeft(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	bool empty = true;
 	for (int i = row + 1, j = col - 1; empty && i <= 7 && j >= 0; ++i, --j)				// down-left
 	{
 		if (board[i][j] == 0)															// empty or enemy
 		{
-			chessMove move(row, col, i, j);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, i, j);
 		}
 		else if (isWhite == (board[i][j] < 0))
 		{
-			chessMove move(row, col, i, j);									// enemy
+			Moves[index++] = chessMove(row, col, i, j);									// enemy
 			empty = false;
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
 		}
 		else if (board[i][j] > 0 == isWhite)											// same colour piece found on diagonal
 		{
@@ -451,31 +309,19 @@ void DownLeft(int board[8][8], int row, int col, bool isWhite, chessState & stat
 	}
 }
 
-void DownRight(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void DownRight(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	bool empty = true;
 	for (int i = row + 1, j = col + 1; empty && i <= 7 && j <= 7; ++i, ++j)				// down-right
 	{
 		if (board[i][j] == 0)															// empty or enemy
 		{
-			chessMove move(row, col, i, j);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, i, j);
 		}
 		else if (isWhite == (board[i][j] < 0))
 		{
-			chessMove move(row, col, i, j);									// enemy
+			Moves[index++] = chessMove(row, col, i, j);									// enemy
 			empty = false;
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
 		}
 		else if (board[i][j] > 0 == isWhite)											// same colour piece found on diagonal
 		{
@@ -484,64 +330,64 @@ void DownRight(int board[8][8], int row, int col, bool isWhite, chessState & sta
 	}
 }
 
-void makeBishopMoves(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void makeBishopMoves(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	if (row == 0)
 	{
 		if (col == 0)
 		{
-			DownRight(board, row, col, isWhite, state, Moves, index);
+			DownRight(board, row, col, isWhite, Moves, index);
 		}
 		else if (col == 7)
 		{
-			DownLeft(board, row, col, isWhite, state, Moves, index);
+			DownLeft(board, row, col, isWhite, Moves, index);
 		}
 		else
 		{
-			DownRight(board, row, col, isWhite, state, Moves, index);
-			DownLeft(board, row, col, isWhite, state, Moves, index);
+			DownRight(board, row, col, isWhite, Moves, index);
+			DownLeft(board, row, col, isWhite, Moves, index);
 		}
 	}
 	else if (row == 7)
 	{
 		if (col == 0)
 		{
-			UpRight(board, row, col, isWhite, state, Moves, index);
+			UpRight(board, row, col, isWhite, Moves, index);
 		}
 		else if (col == 7)
 		{
-			UpLeft(board, row, col, isWhite, state, Moves, index);
+			UpLeft(board, row, col, isWhite, Moves, index);
 		}
 		else
 		{
-			UpRight(board, row, col, isWhite, state, Moves, index);
-			UpLeft(board, row, col, isWhite, state, Moves, index);
+			UpRight(board, row, col, isWhite, Moves, index);
+			UpLeft(board, row, col, isWhite, Moves, index);
 		}
 	}
 	else
 	{
 		if (col == 0)
 		{
-			UpRight(board, row, col, isWhite, state, Moves, index);
-			DownRight(board, row, col, isWhite, state, Moves, index);
+			UpRight(board, row, col, isWhite, Moves, index);
+			DownRight(board, row, col, isWhite, Moves, index);
 		}
 		else if (col == 7)
 		{
-			UpLeft(board, row, col, isWhite, state, Moves, index);
-			DownLeft(board, row, col, isWhite, state, Moves, index);
+			UpLeft(board, row, col, isWhite, Moves, index);
+			DownLeft(board, row, col, isWhite, Moves, index);
 		}
 		else
 		{
-			UpLeft(board, row, col, isWhite, state, Moves, index);
-			UpRight(board, row, col, isWhite, state, Moves, index);
-			DownRight(board, row, col, isWhite, state, Moves, index);
-			DownLeft(board, row, col, isWhite, state, Moves, index);
+			UpLeft(board, row, col, isWhite, Moves, index);
+			UpRight(board, row, col, isWhite, Moves, index);
+			DownRight(board, row, col, isWhite, Moves, index);
+			DownLeft(board, row, col, isWhite, Moves, index);
 		}
 	}
-	
+
 }
 
-void RookUp(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void RookUp(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	bool empty = true;
 
@@ -549,24 +395,12 @@ void RookUp(int board[8][8], int row, int col, bool isWhite, chessState & state,
 	{
 		if (board[i][col] == 0)															// empty
 		{
-			chessMove move(row, col, i, col);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, i, col);
 		}
 		else if (isWhite == (board[i][col] < 0))										// enemy
 		{
-			chessMove move(row, col, i, col);
+			Moves[index++] = chessMove(row, col, i, col);
 			empty = false;
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
 		}
 		else if (board[i][col] > 0 == isWhite)											// same colour piece found on diagonal
 		{
@@ -576,7 +410,7 @@ void RookUp(int board[8][8], int row, int col, bool isWhite, chessState & state,
 }
 
 
-void RookDown(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void RookDown(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	bool empty = false;
 
@@ -584,24 +418,12 @@ void RookDown(int board[8][8], int row, int col, bool isWhite, chessState & stat
 	{
 		if (board[i][col] == 0)															// empty 
 		{
-			chessMove move(row, col, i, col);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, i, col);
 		}
 		else if (isWhite == (board[i][col] < 0))										// enemy
 		{
-			chessMove move(row, col, i, col);
+			Moves[index++] = chessMove(row, col, i, col);
 			empty = false;
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
 		}
 		else if (board[i][col] > 0 == isWhite)											// same colour piece found on diagonal
 		{
@@ -611,7 +433,7 @@ void RookDown(int board[8][8], int row, int col, bool isWhite, chessState & stat
 }
 
 
-void RookLeft(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void RookLeft(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	bool empty = false;
 
@@ -619,24 +441,12 @@ void RookLeft(int board[8][8], int row, int col, bool isWhite, chessState & stat
 	{
 		if (board[row][j] == 0)															// empty
 		{
-			chessMove move(row, col, row, j);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, row, j);
 		}
 		else if (isWhite == (board[row][j] < 0))										// enemy
 		{
-			chessMove move(row, col, row, j);
+			Moves[index++] = chessMove(row, col, row, j);
 			empty = false;
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
 		}
 		else if (board[row][j] > 0 == isWhite)											// same colour piece found on diagonal
 		{
@@ -646,7 +456,7 @@ void RookLeft(int board[8][8], int row, int col, bool isWhite, chessState & stat
 }
 
 
-void RookRight(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void RookRight(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	bool empty = false;
 
@@ -654,24 +464,12 @@ void RookRight(int board[8][8], int row, int col, bool isWhite, chessState & sta
 	{
 		if (board[row][j] == 0)															// empty 
 		{
-			chessMove move(row, col, row, j);
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
+			Moves[index++] = chessMove(row, col, row, j);
 		}
 		else if (isWhite == (board[row][j] < 0))										// enemy
 		{
-			chessMove move(row, col, row, j);
+			Moves[index++] = chessMove(row, col, row, j);
 			empty = false;
-			resetStateBoard(state, board);
-			state.makeMove(move);
-			if (!inCheck(state))
-			{
-				Moves[index++] = move;
-			}
 		}
 		else if (board[row][j] > 0 == isWhite)											// same colour piece found on diagonal
 		{
@@ -680,88 +478,64 @@ void RookRight(int board[8][8], int row, int col, bool isWhite, chessState & sta
 	}
 }
 
-void makeRookMoves(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void makeRookMoves(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	if (row > 0)
 	{
-		RookUp(board, row, col, isWhite, state, Moves, index);
+		RookUp(board, row, col, isWhite, Moves, index);
 	}
 
 	if (row < 7)
 	{
-		RookDown(board, row, col, isWhite, state, Moves, index);
+		RookDown(board, row, col, isWhite, Moves, index);
 	}
 
 	if (col > 0)
 	{
-		RookLeft(board, row, col, isWhite, state, Moves, index);
+		RookLeft(board, row, col, isWhite, Moves, index);
 	}
 
 	if (col < 7)
 	{
-		RookRight(board, row, col, isWhite, state, Moves, index);
+		RookRight(board, row, col, isWhite, Moves, index);
 	}
 }
 
-void makeQueenMoves(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void makeQueenMoves(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
-	makeBishopMoves(board, row, col, isWhite, state, Moves, index);
-	makeRookMoves(board, row, col, isWhite, state, Moves, index);
+	makeBishopMoves(board, row, col, isWhite, Moves, index);
+	makeRookMoves(board, row, col, isWhite, Moves, index);
 }
 
-void makeKingMoves(int board[8][8], int row, int col, bool isWhite, chessState & state, chessMove Moves[200], int & index)
+void makeKingMoves(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	// move if empty, capture if enemy
 
-	if (row > 0 && (board[row - 1][col] == 0 || isWhite == (board[row - 1][col] < 0)))		
+	if (row > 0 && (board[row - 1][col] == 0 || isWhite == (board[row - 1][col] < 0)))
 	{
-		chessMove move(row, col, row - 1, col);
-		resetStateBoard(state, board);
-		state.makeMove(move);
-		if (!inCheck(state))
-		{
-			Moves[index++] = move;
-		}
+		Moves[index++] = chessMove(row, col, row - 1, col);
 	}
-	if (row < 7 && (board[row + 1][col] == 0 || isWhite == (board[row + 1][col] < 0)))		
+	if (row < 7 && (board[row + 1][col] == 0 || isWhite == (board[row + 1][col] < 0)))
 	{
-		chessMove move(row, col, row + 1, col);
-		resetStateBoard(state, board);
-		state.makeMove(move);
-		if (!inCheck(state))
-		{
-			Moves[index++] = move;
-		}
+		Moves[index++] = chessMove(row, col, row + 1, col);
 	}
 	if (col > 0 && (board[row][col - 1] == 0 || isWhite == (board[row][col - 1] < 0)))
 	{
-		chessMove move(row, col, row, col - 1);
-		resetStateBoard(state, board);
-		state.makeMove(move);
-		if (!inCheck(state))
-		{
-			Moves[index++] = move;
-		}
+		Moves[index++] = chessMove(row, col, row, col - 1);
 	}
 	if (col < 7 && (board[row][col + 1] == 0 || isWhite == (board[row][col + 1] < 0)))
 	{
-		chessMove move(row, col, row, col + 1);
-		resetStateBoard(state, board);
-		state.makeMove(move);
-		if (!inCheck(state))
-		{
-			Moves[index++] = move;
-		}
+		Moves[index++] = chessMove(row, col, row, col + 1);
 	}
 }
-
 int chessState::makeValidMovesList()
 {
 	int pieceCode;		// to temporarily store piece
 	int index = 0;		// the index to store generated move in Moves[200], also serves as count.
-	chessState nextState;
-	nextState.playerToMove = this->playerToMove;
-	resetStateBoard(nextState, this->board);
+	chessState nextState = *this;
+
+	chessMove tmp[200];
+	int tmpIndex = 0;
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -775,22 +549,22 @@ int chessState::makeValidMovesList()
 					switch (pieceCode)
 					{
 						case 1:
-							makeWhitePawnMoves(board, i, j, nextState, Moves, index);
+							makeWhitePawnMoves(board, i, j, tmp, tmpIndex);
 							break;
 						case 2:
-							makeKnightMoves(board, i, j, pieceCode>0, nextState, Moves, index);
+							makeKnightMoves(board, i, j, pieceCode>0, tmp, tmpIndex);
 							break;
 						case 3:
-							makeBishopMoves(board, i, j, pieceCode > 0, nextState, Moves, index);
+							makeBishopMoves(board, i, j, pieceCode > 0, tmp, tmpIndex);
 							break;
 						case 4:
-							makeRookMoves(board, i, j, pieceCode > 0, nextState, Moves, index);
+							makeRookMoves(board, i, j, pieceCode > 0, tmp, tmpIndex);
 							break;
 						case 5:
-							makeQueenMoves(board, i, j, pieceCode > 0, nextState, Moves, index);
+							makeQueenMoves(board, i, j, pieceCode > 0, tmp, tmpIndex);
 							break;
 						case 6:
-							makeKingMoves(board, i, j, pieceCode > 0, nextState, Moves, index);
+							makeKingMoves(board, i, j, pieceCode > 0, tmp, tmpIndex);
 							break;
 						default:
 							break;
@@ -801,30 +575,42 @@ int chessState::makeValidMovesList()
 					switch (pieceCode)
 					{
 						case -1:
-							makeBlackPawnMoves(board, i, j, nextState, Moves, index);
+							makeBlackPawnMoves(board, i, j, tmp, tmpIndex);
 							break;
 						case -2:
-							makeKnightMoves(board, i, j, pieceCode>0, nextState, Moves, index);
+							makeKnightMoves(board, i, j, pieceCode>0, tmp, tmpIndex);
 							break;
 						case -3:
-							makeBishopMoves(board, i, j, pieceCode > 0, nextState, Moves, index);
+							makeBishopMoves(board, i, j, pieceCode > 0, tmp, tmpIndex);
 							break;
 						case -4:
-							makeRookMoves(board, i, j, pieceCode > 0, nextState, Moves, index);
+							makeRookMoves(board, i, j, pieceCode > 0, tmp, tmpIndex);
 							break;
 						case -5:
-							makeQueenMoves(board, i, j, pieceCode > 0, nextState, Moves, index);
+							makeQueenMoves(board, i, j, pieceCode > 0, tmp, tmpIndex);
 							break;
 						case -6:
-							makeKingMoves(board, i, j, pieceCode > 0, nextState, Moves, index);
+							makeKingMoves(board, i, j, pieceCode > 0, tmp, tmpIndex);
 							break;
 						default:
 							break;
 					}
 					break;
+
 			}
 		}
 	}
+	index = 0;
+	for (int i = 0; i < tmpIndex; ++i) {
+		chessState nextState = *this;
+		nextState.makeMove(Moves[i]);
+		if (!inCheck(nextState, this->playerToMove)) {
+			// next state takes us into check
+			Moves[index] = tmp[i];
+			++index;
+		}
+	}
+
     // This function must create a list of all valid moves for the player in the current
     // state of the game;
     //  it must return an integer specifying total valid moves in the list
@@ -918,9 +704,8 @@ chessState::chessState()
     }
 }
 
-bool inCheck(chessState state) {
+bool inCheck(chessState state, int playerToMove) {
 
-	int playerToMove = state.playerToMove;
 	bool blocked;
 
 	int enemyPawn;
@@ -929,8 +714,8 @@ bool inCheck(chessState state) {
 	int enemyRook;
 	int enemyQueen;
 	int myKing;
-	int kingI;
-	int kingJ;
+	int kingI = -1;
+	int kingJ = -1;
 
 	if (playerToMove == -1) {
 		// black's turn
@@ -961,6 +746,11 @@ bool inCheck(chessState state) {
 				break;
 			}
 		}
+	}
+
+
+	if (kingI == -1) {
+		return true;
 	}
 
 	// For pawn
