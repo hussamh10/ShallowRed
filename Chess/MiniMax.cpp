@@ -53,10 +53,6 @@ int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 	for (int i = 0; i < count; ++i) {
 		chessState nextState = gameState;
 		nextState.makeMove(nextMoves[i]);
-		if (inCheck(nextState, gameState.playerToMove))
-		{
-			continue;
-		}
 		int minimumValue = Minimize(nextState, alpha, beta, depth - 1);
 		if (value < minimumValue) {
 			value = minimumValue;
@@ -88,10 +84,6 @@ int MiniMax::Minimize(chessState gameState, int alpha, int beta, int depth) {
 	for (int i = 0; i < count; ++i) {
 		chessState nextState = gameState;
 		nextState.makeMove(nextMoves[i]);
-		if (inCheck(nextState, gameState.playerToMove))
-		{
-			continue;
-		}
 		int maximumValue = Maximize(nextState, alpha, beta, depth - 1);
 		if (value > maximumValue) {
 			value = maximumValue;
@@ -109,7 +101,7 @@ int MiniMax::Minimize(chessState gameState, int alpha, int beta, int depth) {
 	return value;
 }
 
-
+/*
 bool inCheck(chessState state, int playerToMove) {
 
 	bool blocked;
@@ -260,3 +252,4 @@ bool inCheck(chessState state, int playerToMove) {
 	}
 	return false;
 }
+*/

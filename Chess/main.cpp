@@ -1,4 +1,5 @@
 #include <iostream>
+#include <conio.h>
 #include "groupName.h"
 #include "chessState.h"
 #include "move.h"
@@ -29,7 +30,7 @@ int main()
 	//
 	
 
-	bool clearscreen = true;
+	bool clearscreen = false;
 
     cout << "Hello world!" << endl;
     chessState game;
@@ -41,14 +42,14 @@ int main()
 	
 	int checkmate = 0;
 	while (checkmate != -1) {
-	//	_getch();
+//		_getch();
 		if (clearscreen) {
 			system("cls");
 		}
 
 		checkmate = players[i % 2].decideMoveUsingMINIMAX(game, PlayerMove, 3);
-		cout << "Move: " << checkmate << endl;
 		cout << PlayerMove << endl;
+		cout << "Turn: " << i << endl;
 		game.makeMove(PlayerMove);
 		game.showState();
 		i++;
@@ -58,3 +59,157 @@ int main()
 
     return 0;
 }
+
+
+/*
+bool inCheck(chessState state, int playerToMove) {
+
+bool blocked;
+
+int enemyPawn;
+int enemyKnight;
+int enemyBishop;
+int enemyRook;
+int enemyQueen;
+int myKing;
+int kingI;
+int kingJ;
+
+if (playerToMove == -1) {
+// black's turn
+// whites are enemies
+enemyPawn = wPawn;
+enemyKnight = wKnight;
+enemyBishop = wBishop;
+enemyRook = wRook;
+enemyQueen = wQueen;
+myKing = bKing;
+}
+else {
+// white's turn
+// blacks are enemies
+enemyPawn = bPawn;
+enemyKnight = bKnight;
+enemyBishop = bBishop;
+enemyRook = bRook;
+enemyQueen = bQueen;
+myKing = wKing;
+}
+
+for (int i = 0; i < 8; ++i) {
+for (int j = 0; j < 8; ++j) {
+if (state.board[i][j] == myKing) {
+kingI = i;
+kingJ = j;
+break;
+}
+}
+}
+
+// For pawn
+if (state.board[kingI + 1][kingJ - 1] == enemyPawn || state.board[kingI + 1][kingJ + 1] == enemyPawn) {
+return true;
+}
+
+if (state.board[kingI - 1][kingJ - 2] == enemyKnight || state.board[kingI - 2][kingJ - 1] == enemyKnight || state.board[kingI - 2][kingJ + 1] == enemyKnight || state.board[kingI - 1][kingJ + 2] == enemyKnight || state.board[kingI + 1][kingJ - 2] == enemyKnight || state.board[kingI + 2][kingJ - 1] == enemyKnight || state.board[kingI + 2][kingJ + 1] == enemyKnight || state.board[kingI + 1][kingJ + 2] == enemyKnight) {
+return true;
+}
+
+
+// For Rook and Queen
+blocked = false;
+for (int i = kingI + 1; !blocked && i < 8; ++i) {
+if (state.board[i][kingJ] == enemyRook || state.board[i][kingJ] == enemyQueen) {
+return true;
+}
+else if (state.board[i][kingJ] != 0) {
+// blocked by another piece
+blocked = true;
+}
+}
+
+blocked = false;
+
+for (int i = kingI - 1; !blocked && i >= 0; --i) {
+if (state.board[i][kingJ] == enemyRook || state.board[i][kingJ] == enemyQueen) {
+return true;
+}
+else if (state.board[i][kingJ] != 0) {
+// blocked by another piece
+blocked = true;
+}
+}
+
+
+blocked = false;
+
+for (int j = kingJ - 1; !blocked && j >= 0; --j) {
+if (state.board[kingI][j] == enemyRook || state.board[kingI][j] == enemyQueen) {
+return true;
+}
+else if (state.board[kingI][j] != '.') {
+// blocked by another piece
+blocked = true;
+}
+}
+
+
+blocked = false;
+for (int j = kingJ + 1; !blocked && j < 8; ++j) {
+if (state.board[kingI][j] == enemyRook || state.board[kingI][j] == enemyQueen) {
+return true;
+}
+else if (state.board[kingI][j] != 0) {
+// blocked by another piece
+blocked = true;
+}
+}
+
+// For Bishop and Queen
+blocked = false;
+for (int i = 1; !blocked && kingI + i < 8 && kingJ + i < 8; ++i) {
+if (state.board[kingI + i][kingJ + i] == enemyBishop || state.board[kingI + i][kingJ + i] == enemyQueen) {
+return true;
+}
+else if (state.board[kingI + i][kingJ + i] != 0) {
+// blocked by another piece
+blocked = true;
+}
+}
+
+blocked = false;
+for (int i = 1; !blocked && kingI - i >= 0 && kingJ - i >= 0; ++i) {
+if (state.board[kingI - i][kingJ - i] == enemyBishop || state.board[kingI - i][kingJ - i] == enemyQueen) {
+return true;
+}
+else if (state.board[kingI - i][kingJ - i] != 0) {
+// blocked by another piece
+blocked = true;
+}
+}
+
+blocked = false;
+int j = 1;
+for (int i = 1, j = 1; !blocked && kingI + i < 8 && kingJ - j >= 0; ++i, ++j) {
+if (state.board[kingI + i][kingJ - j] == enemyBishop || state.board[kingI + i][kingJ - j] == enemyQueen) {
+return true;
+}
+else if (state.board[kingI + i][kingJ - j] != 0) {
+// blocked by another piece
+blocked = true;
+}
+}
+
+blocked = false;
+for (int i = 1, j = 1; !blocked && kingI - i >= 0 && kingJ + j < 8; ++i, ++j) {
+if (state.board[kingI - i][kingJ + i] == enemyBishop || state.board[kingI - i][kingJ + i] == enemyQueen) {
+return true;
+}
+else if (state.board[kingI - i][kingJ + i] != 0) {
+// blocked by another piece
+blocked = true;
+}
+}
+return false;
+}
+*/
