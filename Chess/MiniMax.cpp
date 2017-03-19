@@ -37,8 +37,6 @@ int MiniMax::moveToMake(chessMove& m) {
 	return moveIndex;
 }
 
-bool inCheck(chessState, int);
-
 int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 	if (depth == 0) {
 		int value = evaluator->evaluate(&gameState);
