@@ -39,6 +39,7 @@ int main()
 
 	playerGROUP_NAME player(1);
 	int totalMoves = game.makeValidMovesList();
+	// returns -1 when no more moves or checkmate
 	player.decideMoveUsingMINIMAX(game, PlayerMove, 3);
 	game.makeMove(PlayerMove);
 	game.showState();

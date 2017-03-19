@@ -20,15 +20,13 @@ int playerGROUP_NAME::decideMoveUsingMINIMAX(chessState &gameState, chessMove& r
 		return -1;
     }
 
-
-    int selectedMove = totalMoves -1;
-
 	MiniMax mm(depth, gameState);
 	selectedMove = mm.moveToMake(returnMove);
 	
+	
+	// push state to states taken
 	chessState nextState = gameState;
 	nextState.makeMove(returnMove);
-	
 	states.push_back(nextState);
 	
     return selectedMove;

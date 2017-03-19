@@ -11,6 +11,7 @@ Evaluator* MiniMax::evaluator = nullptr;
 
 MiniMax::MiniMax(int depth, chessState gameState) : depth(depth), gameState(gameState)
 {
+	moveIndex = -1;
 	if (evaluator == nullptr) {
 		evaluator = new Evaluator(1, 1000, 100, 100);
 	}
@@ -29,7 +30,7 @@ int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 		return value;
 	}
 	chessMove bestMove;
-	int moveIndex;
+	int moveIndex = -1;
 	chessMove *nextMoves;
 	int count = gameState.makeValidMovesList();
 	nextMoves = gameState.Moves;
@@ -60,6 +61,7 @@ int MiniMax::Minimize(chessState gameState, int alpha, int beta, int depth) {
 		return value;
 	}
 	chessMove bestMove;
+	int moveIndex = -1;
 	chessMove *nextMoves;
 	int count = gameState.makeValidMovesList();
 	nextMoves = gameState.Moves;
