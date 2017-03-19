@@ -62,6 +62,22 @@ int main()
 
 
 /*
+
+
+#define wPawn 1
+#define bPawn -1
+#define wKnight 2
+#define bKnight -2
+#define wBishop 3
+#define bBishop -3
+#define wRook 4
+#define bRook -4
+#define wQueen 5
+#define bQueen -5
+#define wKing 6
+#define bKing -6
+
+
 bool inCheck(chessState state, int playerToMove) {
 
 bool blocked;
