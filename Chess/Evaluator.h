@@ -5,6 +5,17 @@
 
 using namespace std;
 
+struct RegressionData{
+	RegressionData(){}
+
+	RegressionData(vector<int> v, int s){
+		attribute_values = v;
+		score = s;
+	}
+	vector<int> attribute_values;
+	int score;
+};
+
 class Evaluator{
 public:
 
@@ -19,6 +30,7 @@ private:
 	int material();
 	int mobility();
 	int attacking(int &p1, int &p2);
+	int regression();
 	
 	int knightAttacking(int i, int j);
 	int rookAttacking(int i, int j);
@@ -26,7 +38,10 @@ private:
 	int queenAttacking(int i, int j);
 	int pawnAttacking(int i, int j);
 
-	void saveScores(chessState* r_state);
+	void computeRegrssionWieghts();
+
+	vector<int> getX();
+	void addToPool(chessState* r_state, int score);
 	map<int, int> getPeiceCount(chessState* r_state);
 	void peicesOnOtherSide(int &player, int &opponent);
 
@@ -37,9 +52,8 @@ private:
 	int bishop_pair;
 	int no_pawn;
 
-	int* weights;
-
-	vector<vector<int>> regression_scores;
+	vector<int> weights;
+	vector<RegressionData> pool;
 
 	chessState * state;
 };

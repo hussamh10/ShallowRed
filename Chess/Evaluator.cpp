@@ -79,10 +79,17 @@ int Evaluator::evaluate(chessState * state){
 	value += material_wt * material();
 	value += 20 * mobility();
 	value += mobility_wt * attacking(p1, p2);
+	value += regression();
 
 	value += rand() % 10;
 
 	return value;
+}
+
+int Evaluator::regression(){
+	vector<int> X = getX();
+	//Haroon
+	//vector<int> Y = matrix_multipication(weights, X);
 }
 
 int Evaluator::material(){
@@ -416,18 +423,15 @@ void Evaluator::peicesOnOtherSide(int &player, int &opponent){
 	}
 }
 
-void Evaluator::saveScores(chessState* r_state){
-	/*
-	
-		Whose state is this?
-		Who is p1?
-	
-	*/
+void Evaluator::addToPool(chessState* r_state, int score){
+	state = r_state;
+	pool.push_back(RegressionData(getX(), score));
+}
 
+vector<int> Evaluator::getX(){
 	std::vector<int> scores;
-	scores.push_back(0);
 
-	map<int, int> count = getPeiceCount(r_state);
+	map<int, int> count = getPeiceCount(state);
 
 	for(int i = 1; i < 11; i++){
 		scores.push_back(count[i]);
@@ -436,7 +440,6 @@ void Evaluator::saveScores(chessState* r_state){
 	int attacking_p = 0;
 	int attacking_o = 0;
 
-	state = r_state;
 	attacking(attacking_p, attacking_o);
 
 	scores.push_back(attacking_p);
@@ -458,7 +461,7 @@ void Evaluator::saveScores(chessState* r_state){
 	scores.push_back(mobility_p);
 	scores.push_back(mobility_o);
 
-	regression_scores.push_back(scores);
+	return scores;
 }
 
 map<int, int> Evaluator::getPeiceCount(chessState* r_state){
@@ -476,4 +479,16 @@ map<int, int> Evaluator::getPeiceCount(chessState* r_state){
 		}
 	}
 	return count;
+}
+
+void Evaluator::computeRegrssionWieghts(){
+	//Haroon
+	vector<vector<int>> M;
+	vector<int> Y;
+	for(RegressionData r : pool){
+		M.push_back(r.attribute_values);
+		Y.push_back(r.score);
+	}
+
+	//weights = linearRegression(M, Y);
 }
