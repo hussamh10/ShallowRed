@@ -29,6 +29,7 @@ int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 		return value;
 	}
 	chessMove bestMove;
+	int moveIndex;
 	chessMove *nextMoves;
 	int count = gameState.makeValidMovesList();
 	nextMoves = gameState.Moves;
@@ -49,13 +50,13 @@ int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 		}
 	}
 	this->bestMove = bestMove;
+	this->moveIndex = moveIndex;
 	return value;
 }
 
 int MiniMax::Minimize(chessState gameState, int alpha, int beta, int depth) {
 	if (depth == 0) {
 		int value = evaluator->evaluate(&gameState);
-		//cout << value << endl;
 		return value;
 	}
 	chessMove bestMove;
@@ -79,5 +80,6 @@ int MiniMax::Minimize(chessState gameState, int alpha, int beta, int depth) {
 		}
 	}
 	this->bestMove = bestMove;
+	this->moveIndex = moveIndex;
 	return value;
 }
