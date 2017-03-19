@@ -1,5 +1,9 @@
 #pragma once
 #include "chessState.h"
+#include<vector>
+#include <map>
+
+using namespace std;
 
 class Evaluator{
 public:
@@ -14,13 +18,17 @@ private:
 
 	int material();
 	int mobility();
-	int attacking();
+	int attacking(int &p1, int &p2);
 	
 	int knightAttacking(int i, int j);
 	int rookAttacking(int i, int j);
 	int bishopAttacking(int i, int j);
 	int queenAttacking(int i, int j);
 	int pawnAttacking(int i, int j);
+
+	void saveScores(chessState* r_state);
+	map<int, int> getPeiceCount(chessState* r_state);
+	void peicesOnOtherSide(int &player, int &opponent);
 
 private:
 
@@ -30,6 +38,8 @@ private:
 	int no_pawn;
 
 	int* weights;
+
+	vector<vector<int>> regression_scores;
 
 	chessState * state;
 };

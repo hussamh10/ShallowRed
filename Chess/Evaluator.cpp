@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <map>
 
 
 using namespace std;
@@ -24,17 +25,17 @@ struct cord
 /*
 	Weights being used
 	int:	
-		queen_p
 		pawns_p
+		knight_p
 		bishop_p
 		rook_p
-		knight_p
+		queen_p
 
-		queen_o
 		pawns_o
+		knight_o
 		bishop_o
 		rook_o
-		knight_o
+		queen_o
 		
 		attacking_p
 		attacking_o
@@ -73,9 +74,11 @@ int Evaluator::evaluate(chessState * state){
 	int value = 0;
 	this->state = state;
 	
+	int p1, p2;
+
 	value += material_wt * material();
 	value += 20 * mobility();
-	value += mobility_wt * attacking();
+	value += mobility_wt * attacking(p1, p2);
 
 	value += rand() % 10;
 
@@ -151,7 +154,7 @@ int Evaluator::mobility(){
 	return state->makeValidMovesList();
 }
 
-int Evaluator::attacking(){
+int Evaluator::attacking(int &p1, int &p2){
 	int attackingP1 = 0;
 	int attackingP2 = 0;
 
@@ -201,9 +204,13 @@ int Evaluator::attacking(){
 	}
 	if(state->playerToMove > 0){
 		return attackingP1 - attackingP2;
+		p1 = attackingP1;
+		p2 = attackingP2;
 	}
 	else{
 		return attackingP2 - attackingP1;
+		p1 = attackingP2;
+		p2 = attackingP1;
 	}
 }
 
@@ -369,4 +376,104 @@ int Evaluator::pawnAttacking(int i, int j){
 		}
 	}
 	return attacking;
+}
+
+void Evaluator::peicesOnOtherSide(int &player, int &opponent){
+	player = 0;
+	opponent = 0;
+
+	int white = 0;
+	int black = 0;
+	bool white_playing = (state->playerToMove > 0);
+	int p;
+
+	for(int i = 0; i < 4; i++){
+		for(int j = 0; j < 8; j++){
+			p = state->board[i][j];
+			if(p > 0){
+				white++;
+			}
+		}
+	}
+
+
+	for(int i = 4; i < 8; i++){
+		for(int j = 0; j < 8; j++){
+			p = state->board[i][j];
+			if(p < 0){
+				black++;
+			}
+		}
+	}
+
+	if(white_playing){
+		player = white;
+		opponent = black;
+	}
+	else{
+		player = black;
+		opponent = white;
+	}
+}
+
+void Evaluator::saveScores(chessState* r_state){
+	/*
+	
+		Whose state is this?
+		Who is p1?
+	
+	*/
+
+	std::vector<int> scores;
+	scores.push_back(0);
+
+	map<int, int> count = getPeiceCount(r_state);
+
+	for(int i = 1; i < 11; i++){
+		scores.push_back(count[i]);
+	}
+
+	int attacking_p = 0;
+	int attacking_o = 0;
+
+	state = r_state;
+	attacking(attacking_p, attacking_o);
+
+	scores.push_back(attacking_p);
+	scores.push_back(attacking_o);
+
+	int no_peices_on_other_side_p = 0;
+	int no_peices_on_other_side_o = 0;
+
+	peicesOnOtherSide(no_peices_on_other_side_p, no_peices_on_other_side_o);
+
+	scores.push_back(no_peices_on_other_side_p);
+	scores.push_back(no_peices_on_other_side_o);
+
+	int mobility_p = state->makeValidMovesList();
+	state->playerToMove *= -1;
+	int mobility_o = state->makeValidMovesList();
+	state->playerToMove *= -1;
+
+	scores.push_back(mobility_p);
+	scores.push_back(mobility_o);
+
+	regression_scores.push_back(scores);
+}
+
+map<int, int> Evaluator::getPeiceCount(chessState* r_state){
+	map<int, int> count;
+	int p;
+	for(int i = 0; i < 8; i++){ 
+		for(int j = 0; j < 8; j++){
+			p = r_state->board[i][j];
+			if(p > 0){
+				count[p]++;
+			}
+			if(p < 0){
+				count[p + 5]++;
+			}
+		}
+	}
+	return count;
 }
