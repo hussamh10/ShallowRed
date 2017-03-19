@@ -596,6 +596,7 @@ int chessState::makeValidMovesList()
 							break;
 					}
 					break;
+
 			}
 		}
 	}
