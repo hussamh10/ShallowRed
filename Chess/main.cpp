@@ -30,7 +30,7 @@ int main()
 	//
 	
 
-	bool clearscreen = false;
+	bool clearscreen = true;
 
     cout << "Hello world!" << endl;
     chessState game;
@@ -42,7 +42,7 @@ int main()
 	
 	int checkmate = 0;
 	while (checkmate != -1) {
-//		_getch();
+		_getch();
 		if (clearscreen) {
 			system("cls");
 		}

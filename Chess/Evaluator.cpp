@@ -61,14 +61,18 @@ struct cord
 #define bQueen -5
 #define wKing 6
 #define bKing -6
+#define ATTRIBUTES 16
 
 Evaluator::Evaluator(int material_wt, int mobility_wt, int bishop_pair, int no_pawn):
 material_wt(material_wt), mobility_wt(mobility_wt), bishop_pair(bishop_pair), no_pawn(no_pawn){
 	state = nullptr;
 	srand(time(NULL));
+	for(int i = 0; i < ATTRIBUTES; i++){
+		weights.push_back(1);
+	}
 }
 
-int Evaluator::evaluate(chessState * state){
+double Evaluator::evaluate(chessState * state){
 	int value = 0;
 	this->state = state;
 	
@@ -81,15 +85,26 @@ int Evaluator::evaluate(chessState * state){
 
 	value += rand() % 10;
 
+	/*
+		Test Code ahead
+	*/
+
+	value = 0;
+	value = regression();
+	//value = rand() % 10;
+
 	return value;
 }
 
-int Evaluator::regression(){
+double Evaluator::regression(){
 	vector<int> X = getX();
-	//Haroon
-	//vector<int> Y = matrix_multipication(weights, X);
+	double y = 0;
 
-	return 0;
+	for(int i = 0; i < X.size(); i++){
+		y += X[i] * weights[i];
+	}
+
+	return y;
 }
 
 int Evaluator::material(){
@@ -481,7 +496,7 @@ map<int, int> Evaluator::getPeiceCount(chessState* r_state){
 	return count;
 }
 
-void Evaluator::computeRegrssionWieghts(){
+void Evaluator::computeRegressionWeights(){
 	//Haroon
 	vector<vector<int>> M;
 	vector<int> Y;

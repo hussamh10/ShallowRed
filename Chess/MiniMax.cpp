@@ -27,6 +27,7 @@ int MiniMax::moveToMake(chessMove& m) {
 int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 	if (depth == 0) {
 		int value = evaluator->evaluate(&gameState);
+		cout << value << " ";
 		return value;
 	}
 	chessMove bestMove;
@@ -58,6 +59,7 @@ int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 int MiniMax::Minimize(chessState gameState, int alpha, int beta, int depth) {
 	if (depth == 0) {
 		int value = evaluator->evaluate(&gameState);
+		cout << value << " ";
 		return value;
 	}
 	chessMove bestMove;
