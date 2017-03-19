@@ -13,7 +13,7 @@ class chessPlayer
         int playerColor;
 //        string playerName;
         virtual int decideMoveUsingMINIMAX(chessState &gameState, chessMove& returnMove, unsigned int depth = 1)=0;
-        void gameResult(int winner);
+        virtual void gameResult(int winner);
 };
 
 #endif // PLAYER_H
