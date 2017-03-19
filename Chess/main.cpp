@@ -1,12 +1,11 @@
 #include <iostream>
-#include <conio.h>
-#include "MatrixSolver.h"
 #include "groupName.h"
 #include "chessState.h"
 #include "move.h"
+using namespace std;
 
 
-
+/*
 #define wPawn 1
 #define bPawn -1
 #define wKnight 2
@@ -29,9 +28,25 @@ ostream& operator<<(ostream& out, chessMove c) {
 }
 
 bool checkmate(chessState);
-
+*/
 int main()
 {
+
+	cout << "Hello world!" << endl;
+	chessState game;
+	game.showState();
+	chessMove PlayerMove;
+
+	playerGROUP_NAME player(1);
+	int totalMoves = game.makeValidMovesList();
+	player.decideMoveUsingMINIMAX(game, PlayerMove, 3);
+	game.makeMove(PlayerMove);
+	game.showState();
+
+	return 0;
+	
+	
+	/*
 	bool clearscreen = true;
 
     cout << "Hello world!" << endl;
@@ -57,10 +72,10 @@ int main()
 	cout << "Winner: " << game.playerToMove * -1 << endl;
 	cout << "Game ended in " << i << " turns" << endl;
 
-    return 0;
+    return 0;*/
 }
 
-
+/*
 bool checkmate(chessState state) {
 
 	bool blocked;
@@ -211,3 +226,4 @@ bool checkmate(chessState state) {
 	}
 	return false;
 }
+*/
