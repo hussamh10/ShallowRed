@@ -43,17 +43,18 @@ int main()
 	int i = 0;
 	
 	while (!checkmate(game)) {
-		_getch();
+	//	_getch();
 		if (clearscreen) {
 			system("cls");
 		}
 
 		players[i].decideMoveUsingMINIMAX(game, PlayerMove, 3);
+		cout << PlayerMove << endl;
 		game.makeMove(PlayerMove);
 		game.showState();
 		i = (i + 1) % 2;
 	}
-
+	cout << "Winner: " << game.playerToMove * -1 << endl;
 	cout << "Game ENDED" << endl;
 
     return 0;
