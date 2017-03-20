@@ -9,7 +9,7 @@
 
 using namespace std;
 
-const int VALUES [7] = {0, 100, 350, 350, 525, 1000, 4000};
+const int VALUES [7] = {0, 100, 350, 350, 525, 1000, 0};
 
 struct cord
 {
@@ -73,26 +73,28 @@ material_wt(material_wt), mobility_wt(mobility_wt), bishop_pair(bishop_pair), no
 }
 
 double Evaluator::evaluate(chessState * state){
+	state->playerToMove *= -1;
 	int value = 0;
 	this->state = state;
 	
 	int p1, p2;
 
 	value += material_wt * material();
-	value += 20 * mobility();
+	value += mobility_wt/10 * mobility();
 	value += mobility_wt * attacking(p1, p2);
-	value += regression();
+	//value += regression();
 
-	value += rand() % 10;
+	//value += rand() % 10;
 
 	/*
 		Test Code ahead
-	*/
 
 	value = 0;
 	value = regression();
-	//value = rand() % 10;
+	value += rand() % 10;
+	*/
 
+	state->playerToMove *= -1;
 	return value;
 }
 
@@ -187,9 +189,10 @@ int Evaluator::attacking(int &p1, int &p2){
 			switch(p){
 				case wPawn:
 					attackingP1 += pawnAttacking(i, j);
-
+					break;
 				case bPawn:
 					attackingP2 += pawnAttacking(i, j);
+					break;
 
 				case wKnight:
 					attackingP1 += knightAttacking(i, j);
@@ -225,14 +228,14 @@ int Evaluator::attacking(int &p1, int &p2){
 		}
 	}
 	if(state->playerToMove > 0){
-		return attackingP1 - attackingP2;
 		p1 = attackingP1;
 		p2 = attackingP2;
+		return attackingP1 - attackingP2;
 	}
 	else{
-		return attackingP2 - attackingP1;
 		p1 = attackingP2;
 		p2 = attackingP1;
+		return attackingP2 - attackingP1;
 	}
 }
 
@@ -259,7 +262,7 @@ int Evaluator::bishopAttacking(int r, int c){
 
 	int p;
 
-	for(int i = r, j = c; i < 8, j < 8; i++, j++){
+	for(int i = r, j = c; i < 8 && j < 8; i++, j++){
 		p = state->board[i][j];
 		if(p != 0 && i != r){
 			if(!sameSign(p, x)){
@@ -269,7 +272,7 @@ int Evaluator::bishopAttacking(int r, int c){
 		}
 	}
 
-	for(int i = r, j = c; i >= 0, j >= 0; i--, j--){
+	for(int i = r, j = c; i >= 0 && j >= 0; i--, j--){
 		p = state->board[i][j];
 		if(p != 0 && i != r){
 			if(!sameSign(p, x)){
@@ -279,7 +282,7 @@ int Evaluator::bishopAttacking(int r, int c){
 		}
 	}
 
-	for(int i = r, j = c; i >= 0, j < 8; i--, j++){
+	for(int i = r, j = c; i >= 0 && j < 8; i--, j++){
 		p = state->board[i][j];
 		if(p != 0 && i != r){
 			if(!sameSign(p, x)){
@@ -289,7 +292,7 @@ int Evaluator::bishopAttacking(int r, int c){
 		}
 	}
 
-	for(int i = r, j = c; i > 8, j >= 0; i++, j--){
+	for(int i = r, j = c; i < 8 && j >= 0; i++, j--){
 		p = state->board[i][j];
 		if(p != 0 && i != r){
 			if(!sameSign(p, x)){
@@ -354,9 +357,9 @@ int Evaluator::pawnAttacking(int i, int j){
 	int attacking = 0;
 
 	if(p > 0){ 
-		if(i < 7){
+		if(i > 0){
 			if(j > 0){
-				int b = state->board[i + 1][j - 1];
+				int b = state->board[i - 1][j - 1];
 				if(b != 0){
 					if(!sameSign(p, b)){
 						attacking++;
@@ -364,7 +367,7 @@ int Evaluator::pawnAttacking(int i, int j){
 				}
 			}	
 			if(j < 7){
-				int b = state->board[i + 1][j + 1];
+				int b = state->board[i - 1][j + 1];
 				if(b != 0){
 					if(!sameSign(p, b)){
 						attacking++;
@@ -375,10 +378,10 @@ int Evaluator::pawnAttacking(int i, int j){
 	}
 
 	if(p < 0){ 
-		if(i > 0){
+		if(i < 7){
 			if(j > 0)
 			{
-				int b = state->board[i - 1][j - 1];
+				int b = state->board[i + 1][j - 1];
 				if(b != 0){
 					if(!sameSign(p, b))
 					{
@@ -388,7 +391,7 @@ int Evaluator::pawnAttacking(int i, int j){
 			}	
 			if(j < 7)
 			{
-				int b = state->board[i - 1][j + 1];
+				int b = state->board[i + 1][j + 1];
 				if(b != 0){
 					if(!sameSign(p, b)){
 						attacking++;
