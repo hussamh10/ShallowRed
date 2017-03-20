@@ -3,6 +3,7 @@
 #include "groupName.h"
 #include "chessState.h"
 #include "move.h"
+#include "human.h"
 using namespace std;
 
 ostream& operator<<(ostream& out, chessMove c) {
@@ -85,8 +86,9 @@ int main()
 	//test
 	game.showState();
     chessMove PlayerMove;
-
-    playerGROUP_NAME players[2]{ 1,-1 };
+	
+	playerGROUP_NAME players[2] { 1 };
+	huma
 	int i = 0;
 
 

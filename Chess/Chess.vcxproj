@@ -163,6 +163,7 @@
     <ClInclude Include="chessState.h" />
     <ClInclude Include="Evaluator.h" />
     <ClInclude Include="groupName.h" />
+    <ClInclude Include="human.h" />
     <ClInclude Include="MatrixSolver.h" />
     <ClInclude Include="MiniMax.h" />
     <ClInclude Include="move.h" />
