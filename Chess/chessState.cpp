@@ -524,6 +524,7 @@ void makeKingMoves(int board[8][8], int row, int col, bool isWhite, chessMove Mo
 	{
 		Moves[index++] = chessMove(row, col, row, col + 1);
 	}
+
 }
 
 int chessState::makeValidMovesList()
@@ -605,6 +606,7 @@ int chessState::makeValidMovesList()
 		if (!inCheck(nextState, this->playerToMove)) {
 			// next state takes us into check
 			Moves[index] = tmp[i];
+			cout << "\n From(" << Moves[index].From[0] << "," << Moves[index].From[1] << ") to (" << Moves[index].To[0] << "," << Moves[index].To[1] << ") ";
 			++index;
 		}
 	}

@@ -62,11 +62,11 @@ int main()
 		}
 	}
 
-	game.board[5][5] = 4;
-	game.board[1][5] = -4;
+	game.board[5][5] = 0;
+	//game.board[1][5] = -4;
 
-	game.board[1][7] = -6;
-	game.board[7][2] = 6;
+	//game.board[1][7] = -6;
+	game.board[7][5] = -6;
 
 
 	//Evaluator e (1, 0, 0, 0);
