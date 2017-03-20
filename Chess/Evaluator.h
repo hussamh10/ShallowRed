@@ -20,7 +20,7 @@ class Evaluator{
 public:
 
 	Evaluator(int material_wt,  int mobility_wt, int bishop_pair, int no_pawn);
-	int evaluate(chessState * state);
+	double evaluate(chessState * state, int playerToMove);
 
 private:
 
@@ -30,7 +30,7 @@ private:
 	int material();
 	int mobility();
 	int attacking(int &p1, int &p2);
-	int regression();
+	double regression();
 	
 	int knightAttacking(int i, int j);
 	int rookAttacking(int i, int j);
@@ -38,10 +38,10 @@ private:
 	int queenAttacking(int i, int j);
 	int pawnAttacking(int i, int j);
 
-	void computeRegrssionWieghts();
+	void computeRegressionWeights();
 
 	vector<int> getX();
-	void addToPool(chessState* r_state, int score);
+	void addToPool(chessState* r_state, int score, int playerToMove);
 	map<int, int> getPeiceCount(chessState* r_state);
 	void peicesOnOtherSide(int &player, int &opponent);
 
@@ -51,8 +51,9 @@ private:
 	int mobility_wt;
 	int bishop_pair;
 	int no_pawn;
+	int playerToMove;
 
-	vector<int> weights;
+	vector<double> weights;
 	vector<RegressionData> pool;
 
 	chessState * state;

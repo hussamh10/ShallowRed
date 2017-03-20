@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <map>
+#include "MatrixSolver.h"
 
 
 using namespace std;
@@ -61,35 +62,51 @@ struct cord
 #define bQueen -5
 #define wKing 6
 #define bKing -6
+#define ATTRIBUTES 16
 
 Evaluator::Evaluator(int material_wt, int mobility_wt, int bishop_pair, int no_pawn):
 material_wt(material_wt), mobility_wt(mobility_wt), bishop_pair(bishop_pair), no_pawn(no_pawn){
 	state = nullptr;
 	srand(time(NULL));
+	for(int i = 0; i < ATTRIBUTES; i++){
+		weights.push_back(1);
+	}
 }
 
-int Evaluator::evaluate(chessState * state){
-	int value = 0;
+double Evaluator::evaluate(chessState * state, int playerToMove){
+	this->playerToMove = playerToMove;
 	this->state = state;
+	int value = 0;
 	
 	int p1, p2;
 
 	value += material_wt * material();
-	value += 20 * mobility();
-	value += mobility_wt * attacking(p1, p2);
-	value += regression();
+	//value += mobility_wt/10 * mobility();
+	//value += mobility_wt * attacking(p1, p2);
+	//value += regression();
 
+	//value += rand() % 10;
+
+	/*
+		Test Code ahead
+
+	value = 0;
+	value = regression();
 	value += rand() % 10;
+	*/
 
 	return value;
 }
 
-int Evaluator::regression(){
+double Evaluator::regression(){
 	vector<int> X = getX();
-	//Haroon
-	//vector<int> Y = matrix_multipication(weights, X);
+	double y = 0;
 
-	return 0;
+	for(int i = 0; i < X.size(); i++){
+		y += X[i] * weights[i];
+	}
+
+	return y;
 }
 
 int Evaluator::material(){
@@ -149,7 +166,7 @@ int Evaluator::material(){
 		white(player1) is positive
 	*/
 
-	if(state->playerToMove > 0){
+	if(playerToMove > 0){
 		return sumP1 - sumP2;
 	}
 	else{
@@ -172,9 +189,10 @@ int Evaluator::attacking(int &p1, int &p2){
 			switch(p){
 				case wPawn:
 					attackingP1 += pawnAttacking(i, j);
-
+					break;
 				case bPawn:
 					attackingP2 += pawnAttacking(i, j);
+					break;
 
 				case wKnight:
 					attackingP1 += knightAttacking(i, j);
@@ -209,15 +227,15 @@ int Evaluator::attacking(int &p1, int &p2){
 			}
 		}
 	}
-	if(state->playerToMove > 0){
-		return attackingP1 - attackingP2;
+	if(playerToMove > 0){
 		p1 = attackingP1;
 		p2 = attackingP2;
+		return attackingP1 - attackingP2;
 	}
 	else{
-		return attackingP2 - attackingP1;
 		p1 = attackingP2;
 		p2 = attackingP1;
+		return attackingP2 - attackingP1;
 	}
 }
 
@@ -244,7 +262,7 @@ int Evaluator::bishopAttacking(int r, int c){
 
 	int p;
 
-	for(int i = r, j = c; i < 8, j < 8; i++, j++){
+	for(int i = r, j = c; i < 8 && j < 8; i++, j++){
 		p = state->board[i][j];
 		if(p != 0 && i != r){
 			if(!sameSign(p, x)){
@@ -254,7 +272,7 @@ int Evaluator::bishopAttacking(int r, int c){
 		}
 	}
 
-	for(int i = r, j = c; i >= 0, j >= 0; i--, j--){
+	for(int i = r, j = c; i >= 0 && j >= 0; i--, j--){
 		p = state->board[i][j];
 		if(p != 0 && i != r){
 			if(!sameSign(p, x)){
@@ -264,7 +282,7 @@ int Evaluator::bishopAttacking(int r, int c){
 		}
 	}
 
-	for(int i = r, j = c; i >= 0, j < 8; i--, j++){
+	for(int i = r, j = c; i >= 0 && j < 8; i--, j++){
 		p = state->board[i][j];
 		if(p != 0 && i != r){
 			if(!sameSign(p, x)){
@@ -274,7 +292,7 @@ int Evaluator::bishopAttacking(int r, int c){
 		}
 	}
 
-	for(int i = r, j = c; i > 8, j >= 0; i++, j--){
+	for(int i = r, j = c; i < 8 && j >= 0; i++, j--){
 		p = state->board[i][j];
 		if(p != 0 && i != r){
 			if(!sameSign(p, x)){
@@ -339,9 +357,9 @@ int Evaluator::pawnAttacking(int i, int j){
 	int attacking = 0;
 
 	if(p > 0){ 
-		if(i < 7){
+		if(i > 0){
 			if(j > 0){
-				int b = state->board[i + 1][j - 1];
+				int b = state->board[i - 1][j - 1];
 				if(b != 0){
 					if(!sameSign(p, b)){
 						attacking++;
@@ -349,7 +367,7 @@ int Evaluator::pawnAttacking(int i, int j){
 				}
 			}	
 			if(j < 7){
-				int b = state->board[i + 1][j + 1];
+				int b = state->board[i - 1][j + 1];
 				if(b != 0){
 					if(!sameSign(p, b)){
 						attacking++;
@@ -360,10 +378,10 @@ int Evaluator::pawnAttacking(int i, int j){
 	}
 
 	if(p < 0){ 
-		if(i > 0){
+		if(i < 7){
 			if(j > 0)
 			{
-				int b = state->board[i - 1][j - 1];
+				int b = state->board[i + 1][j - 1];
 				if(b != 0){
 					if(!sameSign(p, b))
 					{
@@ -373,7 +391,7 @@ int Evaluator::pawnAttacking(int i, int j){
 			}	
 			if(j < 7)
 			{
-				int b = state->board[i - 1][j + 1];
+				int b = state->board[i + 1][j + 1];
 				if(b != 0){
 					if(!sameSign(p, b)){
 						attacking++;
@@ -391,7 +409,7 @@ void Evaluator::peicesOnOtherSide(int &player, int &opponent){
 
 	int white = 0;
 	int black = 0;
-	bool white_playing = (state->playerToMove > 0);
+	bool white_playing = (playerToMove > 0);
 	int p;
 
 	for(int i = 0; i < 4; i++){
@@ -423,8 +441,10 @@ void Evaluator::peicesOnOtherSide(int &player, int &opponent){
 	}
 }
 
-void Evaluator::addToPool(chessState* r_state, int score){
+void Evaluator::addToPool(chessState* r_state, int score, int playerToMove){
 	state = r_state;
+	state->playerToMove = playerToMove;
+	this->playerToMove = playerToMove;
 	pool.push_back(RegressionData(getX(), score));
 }
 
@@ -454,9 +474,9 @@ vector<int> Evaluator::getX(){
 	scores.push_back(no_peices_on_other_side_o);
 
 	int mobility_p = state->makeValidMovesList();
-	state->playerToMove *= -1;
+	playerToMove *= -1;
 	int mobility_o = state->makeValidMovesList();
-	state->playerToMove *= -1;
+	playerToMove *= -1;
 
 	scores.push_back(mobility_p);
 	scores.push_back(mobility_o);
@@ -481,13 +501,40 @@ map<int, int> Evaluator::getPeiceCount(chessState* r_state){
 	return count;
 }
 
-void Evaluator::computeRegrssionWieghts(){
-	//Haroon
-	vector<vector<int>> M;
-	vector<int> Y;
+void Evaluator::computeRegressionWeights(){
+	vector<vector<int>> temp_M;
+	vector<int> temp_Y;
+
 	for(RegressionData r : pool){
-		M.push_back(r.attribute_values);
-		Y.push_back(r.score);
+		temp_M.push_back(r.attribute_values);
+		temp_Y.push_back(r.score);
+	}
+
+	int n, m;
+	n = temp_Y.size();
+	m = temp_M[0].size();
+
+	int ** M = new int*[n];
+	for(int i = 0; i < n; i++){
+		M[i] = new int[m];
+	}
+
+	int * Y = new int[n];
+
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < m; j++){
+			M[i][j] = temp_M[i][j];
+		}
+	}
+
+	for(size_t i = 0; i < n; i++){
+		Y[i] = temp_Y[i];
+	}
+
+	double* W = getWeights(M, Y, n, m);
+
+	for(int i = 0; i < m; i++){
+		weights[i] = W[i];
 	}
 
 	//weights = linearRegression(M, Y);

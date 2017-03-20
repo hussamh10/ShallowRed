@@ -9,24 +9,24 @@ using namespace std;
 
 Evaluator* MiniMax::evaluator = nullptr;
 
-
 MiniMax::MiniMax(int depth, chessState gameState) : depth(depth), gameState(gameState)
 {
 	moveIndex = -1;
 	if (evaluator == nullptr) {
-		evaluator = new Evaluator(1, 1000, 100, 100);
+		evaluator = new Evaluator(1, 0, 0, 0);
 	}
 }
 
 int MiniMax::moveToMake(chessMove& m) {
-	Maximize(gameState, INT_MIN + 1, INT_MAX - 1, depth);
+	cout << Maximize(gameState, INT_MIN + 1, INT_MAX - 1, depth) << " ";
 	m = bestMove;
 	return moveIndex;
 }
 
 int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 	if (depth == 0) {
-		int value = evaluator->evaluate(&gameState);
+		int value = evaluator->evaluate(&gameState, gameState.playerToMove);
+		cout << value << " ";
 		return value;
 	}
 	chessMove bestMove;
@@ -57,7 +57,8 @@ int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 
 int MiniMax::Minimize(chessState gameState, int alpha, int beta, int depth) {
 	if (depth == 0) {
-		int value = evaluator->evaluate(&gameState);
+		int value = evaluator->evaluate(&gameState, gameState.playerToMove*-1);
+		cout << value << " ";
 		return value;
 	}
 	chessMove bestMove;

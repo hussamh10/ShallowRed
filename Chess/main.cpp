@@ -11,6 +11,8 @@ ostream& operator<<(ostream& out, chessMove c) {
 	return out;
 }
 
+#include"Evaluator.h"
+
 int main()
 {
 
@@ -28,12 +30,55 @@ int main()
 
 	//return 0;
 	//
-	
+	/*
 
-	bool clearscreen = false;
+	chessState a;
+
+	for(int i = 0; i < 8; i++){
+		for(int j = 0; j < 8; j++){
+			//a.board[i][j] = 0;
+		}
+	}
+
+	//a.board[
+	a.showState();
+	
+	a.playerToMove = 1;
+	Evaluator e (0, 10, 0, 0);
+
+	cout << e.evaluate(&a);
+
+	return 0;
+*/
+
+	bool clearscreen = true;
 
     cout << "Hello world!" << endl;
     chessState game;
+	//test
+	for(int i = 0; i < 8; i++){
+		for(int j = 0; j < 8; j++){
+			game.board[i][j] = 0;
+		}
+	}
+
+	game.board[5][5] = 4;
+	game.board[1][5] = -4;
+
+	game.board[1][7] = -6;
+	game.board[7][2] = 6;
+
+
+	//Evaluator e (1, 0, 0, 0);
+
+	//cout << e.evaluate(&game) << endl;
+
+	//game.board[0][0] = 0;
+
+	//cout << e.evaluate(&game) <<  endl;
+
+	game.playerToMove = -1;
+	//test
 	game.showState();
     chessMove PlayerMove;
 
@@ -42,8 +87,8 @@ int main()
 
 
 	int checkmate = 0;
-	while (checkmate != -1) {
-	//	_getch();
+	while (true) {
+		_getch();
 		if (clearscreen) {
 			system("cls");
 		}
