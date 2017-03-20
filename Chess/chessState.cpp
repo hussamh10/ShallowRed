@@ -814,7 +814,7 @@ bool inCheck(chessState state, int playerToMove) {
 		if (state.board[kingI][j] == enemyRook || state.board[kingI][j] == enemyQueen) {
 			return true;
 		}
-		else if (state.board[kingI][j] != '.') {
+		else if (state.board[kingI][j] != 0) {
 			// blocked by another piece
 			blocked = true;
 		}
