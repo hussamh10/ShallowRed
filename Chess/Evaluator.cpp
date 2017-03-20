@@ -453,7 +453,7 @@ void Evaluator::writeToFile(string filename){
 	ofstream file(filename);
 
 	file << pool.size() << endl;
-	file << pool.data.size() << endl;
+	file << pool[0].attribute_values.size() << endl;
 
 	for(int i = 0; i < pool.size(); i++){
 		file << pool[i].to_string();
@@ -463,7 +463,7 @@ void Evaluator::writeToFile(string filename){
 }
 
 void Evaluator::readFromFile(string filename){
-	ifstream file;
+	ifstream file(filename);
 	int c;
 	int r;
 
@@ -570,5 +570,6 @@ void Evaluator::computeRegressionWeights(){
 
 	for(int i = 0; i < m; i++){
 		weights[i] = W[i];
+		cout << W[i];
 	}
 }
