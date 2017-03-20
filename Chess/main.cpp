@@ -61,11 +61,12 @@ int main()
 			game.board[i][j] = 0;
 		}
 	}
-	game.board[4][4] = 5;
-	game.board[0][0] = -5;
 
-	game.board[0][7] = -6;
-	game.board[5][5] = 6;
+	game.board[5][5] = 4;
+	game.board[1][5] = -4;
+
+	game.board[1][7] = -6;
+	game.board[7][2] = 6;
 
 
 	//Evaluator e (1, 0, 0, 0);
@@ -76,7 +77,7 @@ int main()
 
 	//cout << e.evaluate(&game) <<  endl;
 
-	game.playerToMove = 1;
+	game.playerToMove = -1;
 	//test
 	game.showState();
     chessMove PlayerMove;

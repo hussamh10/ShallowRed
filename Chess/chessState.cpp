@@ -703,7 +703,7 @@ chessState::chessState()
 }
 
 bool inCheck(chessState state, int playerToMove) {
-
+	return false;
 	bool blocked;
 
 	int enemyPawn;

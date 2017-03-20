@@ -5,11 +5,12 @@
 #include <stdlib.h>
 #include <time.h>
 #include <map>
+#include "MatrixSolver.h"
 
 
 using namespace std;
 
-const int VALUES [7] = {0, 100, 350, 350, 525, 1000, 0};
+const int VALUES [7] = {0, 100, 350, 350, 525, 1000, 4000};
 
 struct cord
 {
@@ -80,8 +81,8 @@ double Evaluator::evaluate(chessState * state, int playerToMove){
 	int p1, p2;
 
 	value += material_wt * material();
-	value += mobility_wt/10 * mobility();
-	value += mobility_wt * attacking(p1, p2);
+	//value += mobility_wt/10 * mobility();
+	//value += mobility_wt * attacking(p1, p2);
 	//value += regression();
 
 	//value += rand() % 10;
@@ -440,8 +441,10 @@ void Evaluator::peicesOnOtherSide(int &player, int &opponent){
 	}
 }
 
-void Evaluator::addToPool(chessState* r_state, int score){
+void Evaluator::addToPool(chessState* r_state, int score, int playerToMove){
 	state = r_state;
+	state->playerToMove = playerToMove;
+	this->playerToMove = playerToMove;
 	pool.push_back(RegressionData(getX(), score));
 }
 
@@ -499,12 +502,39 @@ map<int, int> Evaluator::getPeiceCount(chessState* r_state){
 }
 
 void Evaluator::computeRegressionWeights(){
-	//Haroon
-	vector<vector<int>> M;
-	vector<int> Y;
+	vector<vector<int>> temp_M;
+	vector<int> temp_Y;
+
 	for(RegressionData r : pool){
-		M.push_back(r.attribute_values);
-		Y.push_back(r.score);
+		temp_M.push_back(r.attribute_values);
+		temp_Y.push_back(r.score);
+	}
+
+	int n, m;
+	n = temp_Y.size();
+	m = temp_M[0].size();
+
+	int ** M = new int*[n];
+	for(int i = 0; i < n; i++){
+		M[i] = new int[m];
+	}
+
+	int * Y = new int[n];
+
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < m; j++){
+			M[i][j] = temp_M[i][j];
+		}
+	}
+
+	for(size_t i = 0; i < n; i++){
+		Y[i] = temp_Y[i];
+	}
+
+	double* W = getWeights(M, Y, n, m);
+
+	for(int i = 0; i < m; i++){
+		weights[i] = W[i];
 	}
 
 	//weights = linearRegression(M, Y);

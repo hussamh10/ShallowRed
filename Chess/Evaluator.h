@@ -41,7 +41,7 @@ private:
 	void computeRegressionWeights();
 
 	vector<int> getX();
-	void addToPool(chessState* r_state, int score);
+	void addToPool(chessState* r_state, int score, int playerToMove);
 	map<int, int> getPeiceCount(chessState* r_state);
 	void peicesOnOtherSide(int &player, int &opponent);
 
