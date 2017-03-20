@@ -42,7 +42,7 @@ void playerGROUP_NAME::gameResult(int winner)
 		// i should be the state
 		e.addToPool(&(*i), winner, playerColor);
 	}
-	e.writeToFile("data");
+	e.writeToFile("data.txt");
     // This function will be called by the main once the game is over
     // The integer argument winner will be either -1 or 1 depending upon
     // the player who wins the game.

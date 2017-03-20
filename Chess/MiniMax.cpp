@@ -13,7 +13,10 @@ MiniMax::MiniMax(int depth, chessState gameState) : depth(depth), gameState(game
 {
 	moveIndex = -1;
 	if (evaluator == nullptr) {
-		evaluator = new Evaluator(2, 10, 500, 500);
+		evaluator = new Evaluator(4, 10, 500, 500);
+		evaluator->readFromFile("data.txt");
+		evaluator->computeRegressionWeights();
+
 	}
 }
 

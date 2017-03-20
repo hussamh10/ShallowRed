@@ -84,7 +84,7 @@ double Evaluator::evaluate(chessState * state, int playerToMove){
 	value += material_wt * material();
 	value += mobility_wt/10 * mobility();
 	value += mobility_wt * attacking(p1, p2);
-//	value += regression();
+	value += regression();
 
 	value += rand() % 10;
 
@@ -450,13 +450,13 @@ void Evaluator::addToPool(chessState* r_state, int score, int playerToMove){
 }
 
 void Evaluator::writeToFile(string filename){
-	ofstream file(filename);
+	ofstream file(filename, ios::trunc);
 
 	file << pool.size() << endl;
 	file << pool[0].attribute_values.size() << endl;
 
 	for(int i = 0; i < pool.size(); i++){
-		file << pool[i].to_string();
+		file << pool[i].toString();
 		file << endl;
 	}
 	file.close();
@@ -469,9 +469,9 @@ void Evaluator::readFromFile(string filename){
 
 	file >> c;
 	file >> r;
-	vector<int> d;
 
 	for(int i = 0; i < c; i++){
+		vector<int> d;
 		for(int i = 0; i < r; i++){
 			int temp;
 			file >> temp;

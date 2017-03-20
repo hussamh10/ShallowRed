@@ -14,13 +14,13 @@ struct RegressionData{
 		score = s;
 	}
 
-	string to_string(){
+	string toString(){
 		string a = "";
 		for(int i = 0; i < attribute_values.size(); i++){
 			a += std::to_string(attribute_values[i]);
 			a += " ";
 		}
-		a += score;
+		a += std::to_string(score);
 		return a;
 	}
 
@@ -30,6 +30,7 @@ struct RegressionData{
 
 class Evaluator{
 public:
+	vector<RegressionData> pool;
 
 	Evaluator(int material_wt,  int mobility_wt, int bishop_pair, int no_pawn);
 	double evaluate(chessState * state, int playerToMove);
@@ -68,7 +69,6 @@ private:
 	int playerToMove;
 
 	vector<double> weights;
-	vector<RegressionData> pool;
 
 	chessState * state;
 };

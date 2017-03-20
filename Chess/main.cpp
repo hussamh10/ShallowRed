@@ -57,7 +57,7 @@ int main()
     cout << "Hello world!" << endl;
     chessState game;
 	
-	//test
+	/*/test
 	for(int i = 0; i < 8; i++){
 		for(int j = 0; j < 8; j++){
 			game.board[i][j] = 0;
@@ -78,6 +78,11 @@ int main()
 
 	e.computeRegressionWeights();
 
+	cout << "Regression " << e.evaluate(&game, 1) << endl;
+
+	e.addToPool(&game, 1, 1);
+	e.writeToFile("data.txt");
+
 	//cout << e.evaluate(&game) << endl;
 
 	//game.board[0][0] = 0;
@@ -88,7 +93,7 @@ int main()
 	game.showState();
 	
 	return 0;
-	//test
+	/*/
 	
 	game.showState();
     chessMove PlayerMove;

@@ -6,9 +6,13 @@ using namespace arma;
 	See armadillo folder for license.
 */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 // returns inv(M'*M)*(M'*Y)
 double* getWeights(int** M, int* Y, int n, int m) {
+	srand(time(NULL));
 
 	mat matM(n, m);
 	mat matY(n, 1);
@@ -17,18 +21,17 @@ double* getWeights(int** M, int* Y, int n, int m) {
 		matY(i, 0) = Y[i];
 		for (int j = 0; j < m; ++j) {
 			int t = M[i][j];
+			t = rand() % 100;
 			matM(i, j) = t;
 		}
 	}
 
-	// calculate weights
-	mat W = (arma::inv(arma::trans(matM)*matM)) * (arma::trans(matM)*matY);
-
+	//mat W = (arma::inv(arma::trans(matM)*matM)) * (arma::trans(matM)*matY);
 
 	double *weights = new double[m];
 	
 	for (int i = 0; i < m; ++i) {
-		weights[i] = W(i, 0);
+		weights[i] = rand()%5;
 	}
 
 	return weights;
