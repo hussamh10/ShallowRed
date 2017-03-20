@@ -136,7 +136,6 @@ int main()
 	int checkmate = 0;
 	game.showState();
 	while (checkmate != -1) {
-		_getch();
 
 		if (clearscreen) {
 			system("cls");
@@ -152,6 +151,15 @@ int main()
 	}
 	cout << "Winner: " << game.playerToMove*-1 << endl;
 	cout << "Game ended in " << i << " turns" << endl;
+
+	if(game.playerToMove*-1 == -1){
+		players[0]->gameResult(-1);
+		players[1]->gameResult(1);
+	}
+	else{
+		players[0]->gameResult(1);
+		players[1]->gameResult(-1);
+	}
 
 	return 0;
 }

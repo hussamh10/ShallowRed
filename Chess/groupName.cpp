@@ -37,12 +37,13 @@ int playerGROUP_NAME::decideMoveUsingMINIMAX(chessState &gameState, chessMove& r
 void playerGROUP_NAME::gameResult(int winner)
 {
 	// iterate through the state list
-	Evaluator e(1, 1, 1, 1);
+	Evaluator *e = MiniMax::evaluator;
+	e->readFromFile("data.txt");
 	for (std::list<chessState>::iterator i = states.begin(); i != states.end(); ++i){
 		// i should be the state
-		e.addToPool(&(*i), winner, playerColor);
+		e->addToPool(&(*i), winner, playerColor);
 	}
-	e.writeToFile("data.txt");
+	e->writeToFile("data.txt");
     // This function will be called by the main once the game is over
     // The integer argument winner will be either -1 or 1 depending upon
     // the player who wins the game.
