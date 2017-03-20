@@ -40,7 +40,7 @@ void playerGROUP_NAME::gameResult(int winner)
 	Evaluator e(1, 1, 1, 1);
 	for (std::list<chessState>::iterator i = states.begin(); i != states.end(); ++i){
 		// i should be the state
-		e.addToPool(*i, winner, playerColor);
+		e.addToPool(&(*i), winner, playerColor);
 	}
 	e.writeToFile("data");
     // This function will be called by the main once the game is over

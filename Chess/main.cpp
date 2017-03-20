@@ -57,23 +57,26 @@ int main()
     cout << "Hello world!" << endl;
     chessState game;
 	
-	/*//test
+	//test
 	for(int i = 0; i < 8; i++){
 		for(int j = 0; j < 8; j++){
 			game.board[i][j] = 0;
 		}
 	}
 
-	//game.board[0][0] = -5;
-	//game.board[0][5] = 5;
+	game.board[0][0] = -5;
+	game.board[0][5] = 5;
 	game.board[5][5] = 5;
 
 
-	//game.board[1][7] = -6;
+	game.board[1][7] = -6;
 	game.board[7][5] = -6;
 
 
-	//Evaluator e (1, 0, 0, 0);
+	Evaluator e (1, 0, 0, 0);
+	e.readFromFile("data.txt");
+
+	e.computeRegressionWeights();
 
 	//cout << e.evaluate(&game) << endl;
 
@@ -82,8 +85,10 @@ int main()
 	//cout << e.evaluate(&game) <<  endl;
 
 	game.playerToMove = -1;
+	game.showState();
 	
-	*///test
+	return 0;
+	//test
 	
 	game.showState();
     chessMove PlayerMove;

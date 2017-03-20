@@ -16,7 +16,8 @@ double* getWeights(int** M, int* Y, int n, int m) {
 	for (int i = 0; i < n; ++i) {
 		matY(i, 0) = Y[i];
 		for (int j = 0; j < m; ++j) {
-			matM(i, j) = M[i][j];
+			int t = M[i][j];
+			matM(i, j) = t;
 		}
 	}
 
