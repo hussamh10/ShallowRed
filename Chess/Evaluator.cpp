@@ -6,6 +6,7 @@
 #include <time.h>
 #include <map>
 #include "MatrixSolver.h"
+#include <fstream>
 
 
 using namespace std;
@@ -448,6 +449,40 @@ void Evaluator::addToPool(chessState* r_state, int score, int playerToMove){
 	pool.push_back(RegressionData(getX(), score));
 }
 
+void Evaluator::writeToFile(string filename){
+	ofstream file(filename);
+
+	file << pool.size() << endl;
+	file << pool.data.size() << endl;
+
+	for(int i = 0; i < pool.size(); i++){
+		file << pool[i].to_string();
+		file << endl;
+	}
+	file.close();
+}
+
+void Evaluator::readFromFile(string filename){
+	ifstream file;
+	int c;
+	int r;
+
+	file >> c;
+	file >> r;
+	vector<int> d;
+
+	for(int i = 0; i < c; i++){
+		for(int i = 0; i < r; i++){
+			int temp;
+			file >> temp;
+			d.push_back(temp);
+		}
+		int y;
+		file >> y;
+		pool.push_back(RegressionData(d, y));
+	}
+}
+
 vector<int> Evaluator::getX(){
 	std::vector<int> scores;
 
@@ -536,6 +571,4 @@ void Evaluator::computeRegressionWeights(){
 	for(int i = 0; i < m; i++){
 		weights[i] = W[i];
 	}
-
-	//weights = linearRegression(M, Y);
 }

@@ -52,7 +52,7 @@ int main()
 	return 0;
 */
 
-	bool clearscreen = false;
+	bool clearscreen = true;
 
     cout << "Hello world!" << endl;
     chessState game;
@@ -98,15 +98,15 @@ int main()
 	while (checkmate != -1) {
 		_getch();
 
+		if(clearscreen) {
+			system("cls");
+		}
 		checkmate = players[i % 2]->decideMoveUsingMINIMAX(game, PlayerMove, 2);
 		if (checkmate != -1) {
 			cout << PlayerMove << endl;
 			cout << "Turn: " << i << endl;
 			game.makeMove(PlayerMove);
 			game.showState();
-		}
-		if(clearscreen) {
-			system("cls");
 		}
 		i++;
 	}
