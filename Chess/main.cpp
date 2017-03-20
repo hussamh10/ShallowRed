@@ -55,7 +55,7 @@ int main()
 
     cout << "Hello world!" << endl;
     chessState game;
-	/*/
+	
 	//test
 	for(int i = 0; i < 8; i++){
 		for(int j = 0; j < 8; j++){
@@ -63,13 +63,13 @@ int main()
 		}
 	}
 
-	game.board[0][0] = -5;
-	game.board[0][5] = 5;
-	game.board[5][5] = 1;
+	//game.board[0][0] = -5;
+	//game.board[0][5] = 5;
+	game.board[5][5] = 5;
 
 
-	game.board[1][7] = -6;
-	game.board[7][2] = 6;
+	//game.board[1][7] = -6;
+	game.board[7][5] = -6;
 
 
 	//Evaluator e (1, 0, 0, 0);
@@ -81,8 +81,9 @@ int main()
 	//cout << e.evaluate(&game) <<  endl;
 
 	game.playerToMove = -1;
-	*/
+	
 	//test
+	
 	game.showState();
     chessMove PlayerMove;
 
@@ -91,7 +92,7 @@ int main()
 
 
 	int checkmate = 0;
-	while (true) {
+	while (checkmate != -1) {
 		_getch();
 		if (clearscreen) {
 			system("cls");
