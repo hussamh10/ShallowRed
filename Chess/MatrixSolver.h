@@ -1,4 +1,5 @@
 #include <armadillo>
+#define ARMA_DONT_PRINT_ERRORS
 using namespace arma;
 
 /*
@@ -28,7 +29,7 @@ double* getWeights(int** M, int* Y, int n, int m) {
 	double *weights = new double[m];
 	
 	for (int i = 0; i < m; ++i) {
-		weights[i] = W(i, 0);
+		//weights[i] = W(i, 0);
 	}
 
 	return weights;
