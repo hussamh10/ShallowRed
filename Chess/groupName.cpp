@@ -37,7 +37,7 @@ void playerGROUP_NAME::gameResult(int winner)
 {
 	// iterate through the state list
 	for (std::list<chessState>::iterator i = states.begin(); i != states.end(); ++i){
-
+		
 	}
     // This function will be called by the main once the game is over
     // The integer argument winner will be either -1 or 1 depending upon
