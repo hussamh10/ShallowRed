@@ -22,7 +22,7 @@ using namespace std;
 #define bKing -6
 int main()
 {
-	bool clearscreen = false;
+	bool clearscreen = true;
 
 	cout << "Hello world!" << endl;
 	chessState game;
