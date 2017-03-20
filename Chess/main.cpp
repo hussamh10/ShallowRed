@@ -14,6 +14,18 @@ ostream& operator<<(ostream& out, chessMove c) {
 
 #include"Evaluator.h"
 
+#define wPawn 1
+#define bPawn -1
+#define wKnight 2
+#define bKnight -2
+#define wBishop 3
+#define bBishop -3
+#define wRook 4
+#define bRook -4
+#define wQueen 5
+#define bQueen -5
+#define wKing 6
+#define bKing -6
 int main()
 {
 
@@ -36,52 +48,44 @@ int main()
 	chessState a;
 
 	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j++){
-			//a.board[i][j] = 0;
-		}
+	for(int j = 0; j < 8; j++){
+	//a.board[i][j] = 0;
+	}
 	}
 
 	//a.board[
 	a.showState();
-	
+
 	a.playerToMove = 1;
 	Evaluator e (0, 10, 0, 0);
 
 	cout << e.evaluate(&a);
 
 	return 0;
-*/
+	*/
 
-	bool clearscreen = true;
+	bool clearscreen = false;
 
-    cout << "Hello world!" << endl;
-    chessState game;
-	
-	/*/test
+	cout << "Hello world!" << endl;
+	chessState game;
+
+	/*//test
 	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j++){
-			game.board[i][j] = 0;
-		}
+	for(int j = 0; j < 8; j++){
+	game.board[i][j] = 0;
+	}
 	}
 
-	game.board[0][0] = -5;
-	game.board[0][5] = 5;
+	//game.board[0][0] = -5;
+	//game.board[0][5] = 5;
 	game.board[5][5] = 5;
 
 
-	game.board[1][7] = -6;
+	//game.board[1][7] = -6;
 	game.board[7][5] = -6;
 
 
-	Evaluator e (1, 0, 0, 0);
-	e.readFromFile("data.txt");
-
-	e.computeRegressionWeights();
-
-	cout << "Regression " << e.evaluate(&game, 1) << endl;
-
-	e.addToPool(&game, 1, 1);
-	e.writeToFile("data.txt");
+	//Evaluator e (1, 0, 0, 0);
 
 	//cout << e.evaluate(&game) << endl;
 
@@ -90,25 +94,51 @@ int main()
 	//cout << e.evaluate(&game) <<  endl;
 
 	game.playerToMove = -1;
-	game.showState();
-	
-	return 0;
-	/*/
-	
-	game.showState();
-    chessMove PlayerMove;
-	
+
+	*///test
+
+	chessMove PlayerMove;
+
 	chessPlayer *players[2];
 	players[0] = new playerGROUP_NAME(1);
 	players[1] = new playerGROUP_NAME(-1);
 	int i = 0;
 
+	/*for (int i = 0; i < 8; ++i) {
 
+		for (int j = 0; j < 8; ++j) {
+			game.board[i][j] = 0;
+		}
+	}
+	game.board[0][0] = bRook;
+	game.board[0][1] = bKnight;
+	game.board[0][2] = bBishop;
+	game.board[0][3] = bKing;
+	game.board[0][5] = wQueen;
+	game.board[1][0] = bPawn;
+	game.board[1][1] = bPawn;
+	game.board[1][3] = bPawn;
+	game.board[1][7] = wRook;
+	game.board[2][2] = bPawn;
+	game.board[2][4] = bPawn;
+	game.board[5][7] = wKnight;
+	game.board[6][0] = wPawn;
+	game.board[6][1] = wPawn;
+	game.board[6][3] = wPawn;
+	game.board[6][6] = wPawn;
+	game.board[6][7] = wPawn;
+	game.board[7][0] = wRook;
+	game.board[7][1] = wKnight;
+	game.board[7][2] = bQueen;
+	game.board[7][4] = wKing;
+	game.playerToMove = -1;
+*/
 	int checkmate = 0;
+	game.showState();
 	while (checkmate != -1) {
 		_getch();
 
-		if(clearscreen) {
+		if (clearscreen) {
 			system("cls");
 		}
 		checkmate = players[i % 2]->decideMoveUsingMINIMAX(game, PlayerMove, 2);
@@ -123,175 +153,5 @@ int main()
 	cout << "Winner: " << game.playerToMove*-1 << endl;
 	cout << "Game ended in " << i << " turns" << endl;
 
-    return 0;
+	return 0;
 }
-
-
-/*
-
-
-#define wPawn 1
-#define bPawn -1
-#define wKnight 2
-#define bKnight -2
-#define wBishop 3
-#define bBishop -3
-#define wRook 4
-#define bRook -4
-#define wQueen 5
-#define bQueen -5
-#define wKing 6
-#define bKing -6
-
-
-bool inCheck(chessState state) {
-
-bool blocked;
-
-int enemyPawn;
-int enemyKnight;
-int enemyBishop;
-int enemyRook;
-int enemyQueen;
-int myKing;
-int kingI;
-int kingJ;
-
-if (playerToMove == -1) {
-// black's turn
-// whites are enemies
-enemyPawn = wPawn;
-enemyKnight = wKnight;
-enemyBishop = wBishop;
-enemyRook = wRook;
-enemyQueen = wQueen;
-myKing = bKing;
-}
-else {
-// white's turn
-// blacks are enemies
-enemyPawn = bPawn;
-enemyKnight = bKnight;
-enemyBishop = bBishop;
-enemyRook = bRook;
-enemyQueen = bQueen;
-myKing = wKing;
-}
-
-for (int i = 0; i < 8; ++i) {
-for (int j = 0; j < 8; ++j) {
-if (state.board[i][j] == myKing) {
-kingI = i;
-kingJ = j;
-break;
-}
-}
-}
-
-// For pawn
-if (state.board[kingI + 1][kingJ - 1] == enemyPawn || state.board[kingI + 1][kingJ + 1] == enemyPawn) {
-return true;
-}
-
-if (state.board[kingI - 1][kingJ - 2] == enemyKnight || state.board[kingI - 2][kingJ - 1] == enemyKnight || state.board[kingI - 2][kingJ + 1] == enemyKnight || state.board[kingI - 1][kingJ + 2] == enemyKnight || state.board[kingI + 1][kingJ - 2] == enemyKnight || state.board[kingI + 2][kingJ - 1] == enemyKnight || state.board[kingI + 2][kingJ + 1] == enemyKnight || state.board[kingI + 1][kingJ + 2] == enemyKnight) {
-return true;
-}
-
-
-// For Rook and Queen
-blocked = false;
-for (int i = kingI + 1; !blocked && i < 8; ++i) {
-if (state.board[i][kingJ] == enemyRook || state.board[i][kingJ] == enemyQueen) {
-return true;
-}
-else if (state.board[i][kingJ] != 0) {
-// blocked by another piece
-blocked = true;
-}
-}
-
-blocked = false;
-
-for (int i = kingI - 1; !blocked && i >= 0; --i) {
-if (state.board[i][kingJ] == enemyRook || state.board[i][kingJ] == enemyQueen) {
-return true;
-}
-else if (state.board[i][kingJ] != 0) {
-// blocked by another piece
-blocked = true;
-}
-}
-
-
-blocked = false;
-
-for (int j = kingJ - 1; !blocked && j >= 0; --j) {
-if (state.board[kingI][j] == enemyRook || state.board[kingI][j] == enemyQueen) {
-return true;
-}
-else if (state.board[kingI][j] != '.') {
-// blocked by another piece
-blocked = true;
-}
-}
-
-
-blocked = false;
-for (int j = kingJ + 1; !blocked && j < 8; ++j) {
-if (state.board[kingI][j] == enemyRook || state.board[kingI][j] == enemyQueen) {
-return true;
-}
-else if (state.board[kingI][j] != 0) {
-// blocked by another piece
-blocked = true;
-}
-}
-
-// For Bishop and Queen
-blocked = false;
-for (int i = 1; !blocked && kingI + i < 8 && kingJ + i < 8; ++i) {
-if (state.board[kingI + i][kingJ + i] == enemyBishop || state.board[kingI + i][kingJ + i] == enemyQueen) {
-return true;
-}
-else if (state.board[kingI + i][kingJ + i] != 0) {
-// blocked by another piece
-blocked = true;
-}
-}
-
-blocked = false;
-for (int i = 1; !blocked && kingI - i >= 0 && kingJ - i >= 0; ++i) {
-if (state.board[kingI - i][kingJ - i] == enemyBishop || state.board[kingI - i][kingJ - i] == enemyQueen) {
-return true;
-}
-else if (state.board[kingI - i][kingJ - i] != 0) {
-// blocked by another piece
-blocked = true;
-}
-}
-
-blocked = false;
-int j = 1;
-for (int i = 1, j = 1; !blocked && kingI + i < 8 && kingJ - j >= 0; ++i, ++j) {
-if (state.board[kingI + i][kingJ - j] == enemyBishop || state.board[kingI + i][kingJ - j] == enemyQueen) {
-return true;
-}
-else if (state.board[kingI + i][kingJ - j] != 0) {
-// blocked by another piece
-blocked = true;
-}
-}
-
-blocked = false;
-for (int i = 1, j = 1; !blocked && kingI - i >= 0 && kingJ + j < 8; ++i, ++j) {
-if (state.board[kingI - i][kingJ + i] == enemyBishop || state.board[kingI - i][kingJ + i] == enemyQueen) {
-return true;
-}
-else if (state.board[kingI - i][kingJ + i] != 0) {
-// blocked by another piece
-blocked = true;
-}
-}
-return false;
-}
-*/

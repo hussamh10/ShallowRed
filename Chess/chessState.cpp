@@ -620,8 +620,7 @@ int chessState::makeValidMovesList()
 	for (int i = 0; i < tmpIndex; ++i) {
 		chessState nextState = *this;
 		nextState.makeMove(tmp[i]);
-		
-		if (!inCheck(nextState, nextState.playerToMove)) {
+		if (!inCheck(nextState, this->playerToMove)) {
 			// next state takes us into check
 			Moves[index] = tmp[i];
 			++index;
@@ -815,7 +814,7 @@ bool inCheck(chessState state, int playerToMove) {
 		if (state.board[kingI][j] == enemyRook || state.board[kingI][j] == enemyQueen) {
 			return true;
 		}
-		else if (state.board[kingI][j] != '.') {
+		else if (state.board[kingI][j] != 0) {
 			// blocked by another piece
 			blocked = true;
 		}
