@@ -51,10 +51,11 @@ int main()
 	return 0;
 */
 
-	bool clearscreen = true;
+	bool clearscreen = false;
 
     cout << "Hello world!" << endl;
     chessState game;
+	/*/
 	//test
 	for(int i = 0; i < 8; i++){
 		for(int j = 0; j < 8; j++){
@@ -62,8 +63,10 @@ int main()
 		}
 	}
 
-	game.board[5][5] = 4;
-	game.board[1][5] = -4;
+	game.board[0][0] = -5;
+	game.board[0][5] = 5;
+	game.board[5][5] = 1;
+
 
 	game.board[1][7] = -6;
 	game.board[7][2] = 6;
@@ -78,6 +81,7 @@ int main()
 	//cout << e.evaluate(&game) <<  endl;
 
 	game.playerToMove = -1;
+	*/
 	//test
 	game.showState();
     chessMove PlayerMove;
@@ -93,7 +97,7 @@ int main()
 			system("cls");
 		}
 
-		checkmate = players[i % 2].decideMoveUsingMINIMAX(game, PlayerMove, 1);
+		checkmate = players[i % 2].decideMoveUsingMINIMAX(game, PlayerMove, 2);
 		if (checkmate != -1) {
 			cout << PlayerMove << endl;
 			cout << "Turn: " << i << endl;
