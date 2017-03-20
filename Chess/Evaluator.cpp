@@ -570,6 +570,5 @@ void Evaluator::computeRegressionWeights(){
 
 	for(int i = 0; i < m; i++){
 		weights[i] = W[i];
-		cout << W[i];
 	}
 }

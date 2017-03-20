@@ -21,9 +21,7 @@ MiniMax::MiniMax(int depth, chessState gameState) : depth(depth), gameState(game
 }
 
 int MiniMax::moveToMake(chessMove& m) {
-	cout << endl;
-	cout << "Chosen ";
-	cout << Maximize(gameState, INT_MIN + 1, INT_MAX - 1, depth) << " " ;
+	Maximize(gameState, INT_MIN + 1, INT_MAX - 1, depth);
 	m = bestMove;
 	return moveIndex;
 }
