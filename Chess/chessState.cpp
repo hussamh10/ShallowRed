@@ -412,7 +412,7 @@ void RookUp(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200
 
 void RookDown(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
-	bool empty = false;
+	bool empty = true;
 
 	for (int i = row + 1; empty && i <= 7; ++i)											// down
 	{
@@ -435,7 +435,7 @@ void RookDown(int board[8][8], int row, int col, bool isWhite, chessMove Moves[2
 
 void RookLeft(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
-	bool empty = false;
+	bool empty = true;
 
 	for (int j = col - 1; empty && j >= 0; --j)											// down
 	{
@@ -458,7 +458,7 @@ void RookLeft(int board[8][8], int row, int col, bool isWhite, chessMove Moves[2
 
 void RookRight(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
-	bool empty = false;
+	bool empty = true;
 
 	for (int j = col + 1; empty && j <= 7; ++j)											// down
 	{
@@ -714,8 +714,8 @@ bool inCheck(chessState state, int playerToMove) {
 	int enemyRook;
 	int enemyQueen;
 	int myKing;
-	int kingI = -1;
-	int kingJ = -1;
+	int kingI;
+	int kingJ;
 
 	if (playerToMove == -1) {
 		// black's turn
@@ -746,11 +746,6 @@ bool inCheck(chessState state, int playerToMove) {
 				break;
 			}
 		}
-	}
-
-
-	if (kingI == -1) {
-		return true;
 	}
 
 	// For pawn

@@ -39,7 +39,8 @@ int main()
 
     playerGROUP_NAME players[2]{ 1,-1 };
 	int i = 0;
-	
+
+
 	int checkmate = 0;
 	while (checkmate != -1) {
 	//	_getch();
@@ -56,7 +57,7 @@ int main()
 		}
 		i++;
 	}
-	cout << "Winner: " << game.playerToMove * -1 << endl;
+	cout << "Winner: " << game.playerToMove*-1 << endl;
 	cout << "Game ended in " << i << " turns" << endl;
 
     return 0;
