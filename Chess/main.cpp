@@ -90,7 +90,7 @@ int main()
 	
 	chessPlayer *players[2];
 	players[0] = new playerGROUP_NAME(1);
-	players[1] = new human(-1);
+	players[1] = new playerGROUP_NAME(-1);
 	int i = 0;
 
 
