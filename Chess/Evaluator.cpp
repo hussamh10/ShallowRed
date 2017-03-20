@@ -72,10 +72,10 @@ material_wt(material_wt), mobility_wt(mobility_wt), bishop_pair(bishop_pair), no
 	}
 }
 
-double Evaluator::evaluate(chessState * state){
-	state->playerToMove *= -1;
-	int value = 0;
+double Evaluator::evaluate(chessState * state, int playerToMove){
+	this->playerToMove = playerToMove;
 	this->state = state;
+	int value = 0;
 	
 	int p1, p2;
 
@@ -94,7 +94,6 @@ double Evaluator::evaluate(chessState * state){
 	value += rand() % 10;
 	*/
 
-	state->playerToMove *= -1;
 	return value;
 }
 
@@ -166,7 +165,7 @@ int Evaluator::material(){
 		white(player1) is positive
 	*/
 
-	if(state->playerToMove > 0){
+	if(playerToMove > 0){
 		return sumP1 - sumP2;
 	}
 	else{
@@ -227,7 +226,7 @@ int Evaluator::attacking(int &p1, int &p2){
 			}
 		}
 	}
-	if(state->playerToMove > 0){
+	if(playerToMove > 0){
 		p1 = attackingP1;
 		p2 = attackingP2;
 		return attackingP1 - attackingP2;
@@ -409,7 +408,7 @@ void Evaluator::peicesOnOtherSide(int &player, int &opponent){
 
 	int white = 0;
 	int black = 0;
-	bool white_playing = (state->playerToMove > 0);
+	bool white_playing = (playerToMove > 0);
 	int p;
 
 	for(int i = 0; i < 4; i++){
@@ -472,9 +471,9 @@ vector<int> Evaluator::getX(){
 	scores.push_back(no_peices_on_other_side_o);
 
 	int mobility_p = state->makeValidMovesList();
-	state->playerToMove *= -1;
+	playerToMove *= -1;
 	int mobility_o = state->makeValidMovesList();
-	state->playerToMove *= -1;
+	playerToMove *= -1;
 
 	scores.push_back(mobility_p);
 	scores.push_back(mobility_o);

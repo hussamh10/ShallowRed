@@ -409,7 +409,6 @@ void RookUp(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200
 	}
 }
 
-
 void RookDown(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	bool empty = false;
@@ -432,7 +431,6 @@ void RookDown(int board[8][8], int row, int col, bool isWhite, chessMove Moves[2
 	}
 }
 
-
 void RookLeft(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
 	bool empty = false;
@@ -454,7 +452,6 @@ void RookLeft(int board[8][8], int row, int col, bool isWhite, chessMove Moves[2
 		}
 	}
 }
-
 
 void RookRight(int board[8][8], int row, int col, bool isWhite, chessMove Moves[200], int & index)
 {
@@ -528,6 +525,7 @@ void makeKingMoves(int board[8][8], int row, int col, bool isWhite, chessMove Mo
 		Moves[index++] = chessMove(row, col, row, col + 1);
 	}
 }
+
 int chessState::makeValidMovesList()
 {
 	int pieceCode;		// to temporarily store piece

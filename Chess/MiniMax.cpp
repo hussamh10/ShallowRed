@@ -9,7 +9,6 @@ using namespace std;
 
 Evaluator* MiniMax::evaluator = nullptr;
 
-
 MiniMax::MiniMax(int depth, chessState gameState) : depth(depth), gameState(gameState)
 {
 	moveIndex = -1;

@@ -20,7 +20,7 @@ class Evaluator{
 public:
 
 	Evaluator(int material_wt,  int mobility_wt, int bishop_pair, int no_pawn);
-	double evaluate(chessState * state);
+	double evaluate(chessState * state, int playerToMove);
 
 private:
 
@@ -51,6 +51,7 @@ private:
 	int mobility_wt;
 	int bishop_pair;
 	int no_pawn;
+	int playerToMove;
 
 	vector<double> weights;
 	vector<RegressionData> pool;
