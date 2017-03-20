@@ -104,7 +104,7 @@ int main()
 	players[1] = new playerGROUP_NAME(-1);
 	int i = 0;
 
-	for (int i = 0; i < 8; ++i) {
+	/*for (int i = 0; i < 8; ++i) {
 
 		for (int j = 0; j < 8; ++j) {
 			game.board[i][j] = 0;
@@ -131,9 +131,9 @@ int main()
 	game.board[7][1] = wKnight;
 	game.board[7][2] = bQueen;
 	game.board[7][4] = wKing;
-
-	int checkmate = 0;
 	game.playerToMove = -1;
+*/
+	int checkmate = 0;
 	game.showState();
 	while (checkmate != -1) {
 		_getch();
