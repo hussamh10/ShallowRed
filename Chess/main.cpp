@@ -57,7 +57,7 @@ int main()
     cout << "Hello world!" << endl;
     chessState game;
 	
-	//test
+	/*//test
 	for(int i = 0; i < 8; i++){
 		for(int j = 0; j < 8; j++){
 			game.board[i][j] = 0;
@@ -83,29 +83,30 @@ int main()
 
 	game.playerToMove = -1;
 	
-	//test
+	*///test
 	
 	game.showState();
     chessMove PlayerMove;
 	
-	playerGROUP_NAME players[2] { 1 };
-	huma
+	chessPlayer *players[2];
+	players[0] = new playerGROUP_NAME(1);
+	players[1] = new human(-1);
 	int i = 0;
 
 
 	int checkmate = 0;
 	while (checkmate != -1) {
 		_getch();
-		if (clearscreen) {
-			system("cls");
-		}
 
-		checkmate = players[i % 2].decideMoveUsingMINIMAX(game, PlayerMove, 2);
+		checkmate = players[i % 2]->decideMoveUsingMINIMAX(game, PlayerMove, 2);
 		if (checkmate != -1) {
 			cout << PlayerMove << endl;
 			cout << "Turn: " << i << endl;
 			game.makeMove(PlayerMove);
 			game.showState();
+		}
+		if(clearscreen) {
+			system("cls");
 		}
 		i++;
 	}

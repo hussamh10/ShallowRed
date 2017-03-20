@@ -5,6 +5,7 @@
 class human : public chessPlayer
 {
 public:
+	human(int i) :chessPlayer(i){}
 	int decideMoveUsingMINIMAX(chessState &gameState, chessMove& returnMove, unsigned int depth = 1) {
 		int from1, from2;
 		int to1, to2;

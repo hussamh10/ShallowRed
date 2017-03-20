@@ -620,12 +620,10 @@ int chessState::makeValidMovesList()
 	for (int i = 0; i < tmpIndex; ++i) {
 		chessState nextState = *this;
 		nextState.makeMove(tmp[i]);
-		cout << "\n From(" << Moves[index].From[0] << "," << Moves[index].From[1] << ") to (" << Moves[index].To[0] << "," << Moves[index].To[1] << ") ";
-
+		
 		if (!inCheck(nextState, this->playerToMove)) {
 			// next state takes us into check
 			Moves[index] = tmp[i];
-			cout << "\n From(" << Moves[index].From[0] << "," << Moves[index].From[1] << ") to (" << Moves[index].To[0] << "," << Moves[index].To[1] << ") ";
 			++index;
 		}
 	}

@@ -40,7 +40,7 @@ int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 		chessState nextState = gameState;
 		nextState.makeMove(nextMoves[i]);
 		int minimumValue = Minimize(nextState, alpha, beta, depth - 1);
-		cout << "Maximize" << minimumValue << "\n";
+//		cout << "Maximize" << minimumValue << "\n";
 		if (value < minimumValue) {
 			value = minimumValue;
 			bestMove = nextMoves[i];
@@ -72,7 +72,7 @@ int MiniMax::Minimize(chessState gameState, int alpha, int beta, int depth) {
 		chessState nextState = gameState;
 		nextState.makeMove(nextMoves[i]);
 		int maximumValue = Maximize(nextState, alpha, beta, depth - 1);
-		cout << "Minimize" << maximumValue << "\n";
+	//	cout << "Minimize" << maximumValue << "\n";
 		if (value > maximumValue) {
 			value = maximumValue;
 			bestMove = nextMoves[i];
