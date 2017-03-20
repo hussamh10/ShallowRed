@@ -13,12 +13,14 @@ MiniMax::MiniMax(int depth, chessState gameState) : depth(depth), gameState(game
 {
 	moveIndex = -1;
 	if (evaluator == nullptr) {
-		evaluator = new Evaluator(1, 0, 0, 0);
+		evaluator = new Evaluator(2, 10, 500, 500);
 	}
 }
 
 int MiniMax::moveToMake(chessMove& m) {
-	cout << Maximize(gameState, INT_MIN + 1, INT_MAX - 1, depth) << " ";
+	cout << endl;
+	cout << "Chosen ";
+	cout << Maximize(gameState, INT_MIN + 1, INT_MAX - 1, depth) << " " ;
 	m = bestMove;
 	return moveIndex;
 }
@@ -26,7 +28,6 @@ int MiniMax::moveToMake(chessMove& m) {
 int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 	if (depth == 0) {
 		int value = evaluator->evaluate(&gameState, gameState.playerToMove);
-		cout << value << " ";
 		return value;
 	}
 	chessMove bestMove;
@@ -39,6 +40,7 @@ int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 		chessState nextState = gameState;
 		nextState.makeMove(nextMoves[i]);
 		int minimumValue = Minimize(nextState, alpha, beta, depth - 1);
+		cout << "Maximize" << minimumValue << "\n";
 		if (value < minimumValue) {
 			value = minimumValue;
 			bestMove = nextMoves[i];
@@ -58,7 +60,6 @@ int MiniMax::Maximize(chessState gameState, int alpha, int beta, int depth) {
 int MiniMax::Minimize(chessState gameState, int alpha, int beta, int depth) {
 	if (depth == 0) {
 		int value = evaluator->evaluate(&gameState, gameState.playerToMove*-1);
-		cout << value << " ";
 		return value;
 	}
 	chessMove bestMove;
@@ -71,6 +72,7 @@ int MiniMax::Minimize(chessState gameState, int alpha, int beta, int depth) {
 		chessState nextState = gameState;
 		nextState.makeMove(nextMoves[i]);
 		int maximumValue = Maximize(nextState, alpha, beta, depth - 1);
+		cout << "Minimize" << maximumValue << "\n";
 		if (value > maximumValue) {
 			value = maximumValue;
 			bestMove = nextMoves[i];

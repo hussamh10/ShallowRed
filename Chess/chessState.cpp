@@ -705,7 +705,6 @@ chessState::chessState()
 }
 
 bool inCheck(chessState state, int playerToMove) {
-	return false;
 	bool blocked;
 
 	int enemyPawn;
@@ -714,7 +713,7 @@ bool inCheck(chessState state, int playerToMove) {
 	int enemyRook;
 	int enemyQueen;
 	int myKing;
-	int kingI;
+	int kingI = -1;
 	int kingJ;
 
 	if (playerToMove == -1) {
@@ -746,6 +745,10 @@ bool inCheck(chessState state, int playerToMove) {
 				break;
 			}
 		}
+	}
+
+	if(kingI == -1) {
+		return true;
 	}
 
 	// For pawn

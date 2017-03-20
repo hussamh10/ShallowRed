@@ -81,11 +81,11 @@ double Evaluator::evaluate(chessState * state, int playerToMove){
 	int p1, p2;
 
 	value += material_wt * material();
-	//value += mobility_wt/10 * mobility();
-	//value += mobility_wt * attacking(p1, p2);
-	//value += regression();
+	value += mobility_wt/10 * mobility();
+	value += mobility_wt * attacking(p1, p2);
+//	value += regression();
 
-	//value += rand() % 10;
+	value += rand() % 10;
 
 	/*
 		Test Code ahead
