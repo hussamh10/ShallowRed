@@ -21,17 +21,18 @@ double* getWeights(int** M, int* Y, int n, int m) {
 		matY(i, 0) = Y[i];
 		for (int j = 0; j < m; ++j) {
 			int t = M[i][j];
-			t = rand() % 100;
+			t = rand() % 10000;
 			matM(i, j) = t;
 		}
 	}
 
-	//mat W = (arma::inv(arma::trans(matM)*matM)) * (arma::trans(matM)*matY);
+	mat W = (arma::inv(arma::trans(matM)*matM)) * (arma::trans(matM)*matY);
 
 	double *weights = new double[m];
 	
 	for (int i = 0; i < m; ++i) {
-		weights[i] = rand()%5;
+		//weights[i] = rand()%5;
+		weights[i] = W[i];
 	}
 
 	return weights;

@@ -11,7 +11,7 @@
 
 using namespace std;
 
-const int VALUES [7] = {0, 100, 350, 350, 525, 1000, 4000};
+const int VALUES [7] = {0, 100, 350, 350, 525, 1000, 0};
 
 struct cord
 {
@@ -84,7 +84,8 @@ double Evaluator::evaluate(chessState * state, int playerToMove){
 	value += material_wt * material();
 	value += mobility_wt/10 * mobility();
 	value += mobility_wt * attacking(p1, p2);
-	value += regression();
+	value += 100000*regression();
+	//cout << 100000*regression() << " ";
 
 	value += rand() % 10;
 
