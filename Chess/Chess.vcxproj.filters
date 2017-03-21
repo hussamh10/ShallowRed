@@ -21,9 +21,6 @@
     <ClCompile Include="chessState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="groupName.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="move.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -36,15 +33,15 @@
     <ClCompile Include="Evaluator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Erwin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="chessBoard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="chessState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="groupName.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="move.h">
@@ -63,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="human.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Erwin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

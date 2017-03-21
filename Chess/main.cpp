@@ -1,6 +1,6 @@
 #include <iostream>
 #include <conio.h>
-#include "groupName.h"
+#include "Erwin.h"
 #include "chessState.h"
 #include "move.h"
 #include "human.h"
@@ -105,8 +105,8 @@ int main()
 	chessMove PlayerMove;
 
 	chessPlayer *players[2];
-	players[0] = new playerGROUP_NAME(1);
-	players[1] = new playerGROUP_NAME(-1);
+	players[0] = new Erwin(1);
+	players[1] = new Erwin(-1);
 	int i = 0;
 
 	int checkmate = 0;
