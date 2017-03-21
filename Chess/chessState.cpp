@@ -729,6 +729,7 @@ bool inCheck(chessState state, int playerToMove) {
 	int enemyRook;
 	int enemyQueen;
 	int myKing;
+	int enemyKing;
 	int kingI = -1;
 	int kingJ;
 
@@ -741,6 +742,7 @@ bool inCheck(chessState state, int playerToMove) {
 		enemyRook = wRook;
 		enemyQueen = wQueen;
 		myKing = bKing;
+		enemyKing = wKing;
 	}
 	else {
 		// white's turn
@@ -751,6 +753,7 @@ bool inCheck(chessState state, int playerToMove) {
 		enemyRook = bRook;
 		enemyQueen = bQueen;
 		myKing = wKing;
+		enemyKing = bKing;
 	}
 
 	for (int i = 0; i < 8; ++i) {
@@ -767,20 +770,113 @@ bool inCheck(chessState state, int playerToMove) {
 		return true;
 	}
 
-	// For pawn
-	if (kingJ != 0 && kingJ != 7 && kingI != 7)
+	// For Pawn
+	//if (kingJ != 0 && kingJ != 7 && kingI != 7)
 	{
 		if (state.board[kingI + 1][kingJ - 1] == enemyPawn || state.board[kingI + 1][kingJ + 1] == enemyPawn) {
 			return true;
 		}
 	}
 	
-	if (kingI >= 2 && kingI <= 5 && kingJ >= 2 && kingJ <= 5)
+	//if (kingI >= 2 && kingI <= 5 && kingJ >= 2 && kingJ <= 5)
 	{
 		if (state.board[kingI - 1][kingJ - 2] == enemyKnight || state.board[kingI - 2][kingJ - 1] == enemyKnight || state.board[kingI - 2][kingJ + 1] == enemyKnight || state.board[kingI - 1][kingJ + 2] == enemyKnight || state.board[kingI + 1][kingJ - 2] == enemyKnight || state.board[kingI + 2][kingJ - 1] == enemyKnight || state.board[kingI + 2][kingJ + 1] == enemyKnight || state.board[kingI + 1][kingJ + 2] == enemyKnight) {
 			return true;
 		}
 	}
+
+	// For Enemy King
+	if (kingI > 0 && kingI < 7)
+	{
+		if (kingJ > 0 && kingJ < 7)
+		{
+			if (state.board[kingI - 1][kingJ - 1] == enemyKing || state.board[kingI][kingJ - 1] == enemyKing
+				|| state.board[kingI - 1][kingJ + 1] == enemyKing || state.board[kingI][kingJ + 1] == enemyKing
+				|| state.board[kingI + 1][kingJ + 1] == enemyKing || state.board[kingI + 1][kingJ - 1] == enemyKing
+				|| state.board[kingI - 1][kingJ] == enemyKing || state.board[kingI + 1][kingJ] == enemyKing)
+			{
+				return true;
+			}
+		}
+		else if(kingJ == 0)
+		{
+			if (state.board[kingI - 1][kingJ] == enemyKing
+				|| state.board[kingI - 1][kingJ + 1] == enemyKing || state.board[kingI][kingJ + 1] == enemyKing
+				|| state.board[kingI + 1][kingJ + 1] == enemyKing
+				|| state.board[kingI - 1][kingJ] == enemyKing || state.board[kingI + 1][kingJ] == enemyKing)
+			{
+				return true;
+			}
+		}
+		else if (kingJ == 7)
+		{
+			if (state.board[kingI - 1][kingJ - 1] == enemyKing || state.board[kingI][kingJ - 1] == enemyKing
+				|| state.board[kingI + 1][kingJ - 1] == enemyKing
+				|| state.board[kingI - 1][kingJ] == enemyKing || state.board[kingI + 1][kingJ] == enemyKing)
+			{
+				return true;
+			}
+		}
+	}
+	else if (kingI == 0)
+	{
+		if (kingJ > 0 && kingJ < 7)
+		{
+			if (state.board[kingI][kingJ - 1] == enemyKing
+				|| state.board[kingI][kingJ + 1] == enemyKing
+				|| state.board[kingI + 1][kingJ + 1] == enemyKing || state.board[kingI + 1][kingJ - 1] == enemyKing
+				|| state.board[kingI + 1][kingJ] == enemyKing)
+			{
+				return true;
+			}
+		}
+		else if (kingJ == 0)
+		{
+			if (state.board[kingI][kingJ + 1] == enemyKing || state.board[kingI + 1][kingJ + 1] == enemyKing
+				|| state.board[kingI + 1][kingJ] == enemyKing)
+			{
+				return true;
+			}
+		}
+		else if (kingJ == 7)
+		{
+			if (state.board[kingI][kingJ - 1] == enemyKing || state.board[kingI + 1][kingJ - 1] == enemyKing
+				|| state.board[kingI + 1][kingJ] == enemyKing)
+			{
+				return true;
+			}
+		}
+	}
+	else if (kingI == 7)
+	{
+		if (kingJ > 0 && kingJ < 7)
+		{
+			if (state.board[kingI][kingJ - 1] == enemyKing
+				|| state.board[kingI][kingJ + 1] == enemyKing
+				|| state.board[kingI - 1][kingJ + 1] == enemyKing || state.board[kingI - 1][kingJ - 1] == enemyKing
+				|| state.board[kingI - 1][kingJ] == enemyKing)
+			{
+				return true;
+			}
+		}
+		else if (kingJ == 0)
+		{
+			if (state.board[kingI][kingJ + 1] == enemyKing || state.board[kingI - 1][kingJ + 1] == enemyKing
+				|| state.board[kingI - 1][kingJ] == enemyKing)
+			{
+				return true;
+			}
+		}
+		else if (kingJ == 7)
+		{
+			if (state.board[kingI - 1][kingJ - 1] == enemyKing || state.board[kingI][kingJ - 1] == enemyKing
+				|| state.board[kingI - 1][kingJ] == enemyKing)
+			{
+				return true;
+			}
+		}
+	}
+	
 
 
 	// For Rook and Queen
