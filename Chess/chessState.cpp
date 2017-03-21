@@ -773,7 +773,10 @@ bool inCheck(chessState state, int playerToMove) {
 	// For Pawn
 	//if (kingJ != 0 && kingJ != 7 && kingI != 7)
 	{
-		if (state.board[kingI + 1][kingJ - 1] == enemyPawn || state.board[kingI + 1][kingJ + 1] == enemyPawn) {
+		if (enemyPawn == 1 && (state.board[kingI + 1][kingJ - 1] == enemyPawn || state.board[kingI + 1][kingJ + 1] == enemyPawn)) {
+			return true;
+		}
+		if (enemyPawn == -1 && (state.board[kingI - 1][kingJ - 1] == enemyPawn || state.board[kingI - 1][kingJ + 1] == enemyPawn)) {
 			return true;
 		}
 	}
